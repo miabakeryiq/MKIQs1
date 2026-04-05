@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Menu Middleware App</title>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <style>
+    body { background: #f8fafc; font-family: system-ui, sans-serif; color: #0f172a; }
+    #root { min-height: 100vh; }
+    input, button { font-family: inherit; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/javascript">
+    const { useState, useEffect, useMemo } = React;
+    const DEFAULT_API_BASE = "http://localhost:3000";
+    const DEFAULT_SCREEN_ID = "mckenzie-main";
+    const INITIAL_ITEMS = [
+      {"id":"beef_liver_s","name":"Beef Liver S","defaultPrice":7},
+      {"id":"beef_liver_m","name":"Beef Liver M","defaultPrice":12},
+      {"id":"beef_liver_l","name":"Beef Liver L","defaultPrice":15},
+      {"id":"stew_chicken_s","name":"Stew Chicken S","defaultPrice":7},
+      {"id":"stew_chicken_m","name":"Stew Chicken M","defaultPrice":12},
+      {"id":"stew_chicken_l","name":"Stew Chicken L","defaultPrice":15},
+      {"id":"ackee_saltfish_s","name":"Ackee & Saltfish S","defaultPrice":11},
+      {"id":"ackee_saltfish_m","name":"Ackee & Saltfish M","defaultPrice":15},
+      {"id":"ackee_saltfish_l","name":"Ackee & Saltfish L","defaultPrice":18},
+      {"id":"callaloo_saltfish_s","name":"Callaloo & Saltfish S","defaultPrice":7},
+      {"id":"callaloo_saltfish_m","name":"Callaloo & Saltfish M","defaultPrice":12},
+      {"id":"callaloo_saltfish_l","name":"Callaloo & Saltfish L","defaultPrice":15},
+      {"id":"butterbeans_saltfish_s","name":"Butterbeans & Saltfish S","defaultPrice":7},
+      {"id":"butterbeans_saltfish_m","name":"Butterbeans & Saltfish M","defaultPrice":12},
+      {"id":"butterbeans_saltfish_l","name":"Butterbeans & Saltfish L","defaultPrice":15},
+      {"id":"cookup_saltfish_s","name":"Cook-up Saltfish S","defaultPrice":7},
+      {"id":"cookup_saltfish_m","name":"Cook-up Saltfish M","defaultPrice":12},
+      {"id":"cookup_saltfish_l","name":"Cook-up Saltfish L","defaultPrice":15},
+      {"id":"kidney_s","name":"Kidney S","defaultPrice":7},
+      {"id":"kidney_m","name":"Kidney M","defaultPrice":12},
+      {"id":"kidney_l","name":"Kidney L","defaultPrice":15},
+      {"id":"porridge_oatmeal_s","name":"Oatmeal S","defaultPrice":5},
+      {"id":"porridge_oatmeal_l","name":"Oatmeal L","defaultPrice":8},
+      {"id":"porridge_peanut_s","name":"Peanut S","defaultPrice":5},
+      {"id":"porridge_peanut_l","name":"Peanut L","defaultPrice":8},
+      {"id":"porridge_plantain_s","name":"Plantain S","defaultPrice":5},
+      {"id":"porridge_plantain_l","name":"Plantain L","defaultPrice":8},
+      {"id":"porridge_carrot_s","name":"Carrot S","defaultPrice":5},
+      {"id":"porridge_carrot_l","name":"Carrot L","defaultPrice":8},
+      {"id":"porridge_cornmeal_s","name":"Cornmeal S","defaultPrice":5},
+      {"id":"porridge_cornmeal_l","name":"Cornmeal L","defaultPrice":8},
+      {"id":"patty_curry_chicken","name":"Curry Chicken","defaultPrice":3.5},
+      {"id":"patty_beef_spicy","name":"Beef (Spicy)","defaultPrice":3.5},
+      {"id":"patty_beef_mild","name":"Beef Mild","defaultPrice":3.5},
+      {"id":"patty_beefy_cheese","name":"Beefy Cheese","defaultPrice":3.5},
+      {"id":"patty_veggie","name":"Veggie","defaultPrice":3.5},
+      {"id":"patty_spinach","name":"Spinach","defaultPrice":4.0},
+      {"id":"patty_spinach_cheese","name":"Spinach w/ cheese","defaultPrice":4.5},
+      {"id":"patty_coco_bread","name":"Coco Bread","defaultPrice":1.5},
+      {"id":"soup_chicken_s","name":"Soup Chicken S","defaultPrice":5},
+      {"id":"soup_chicken_l","name":"Soup Chicken L","defaultPrice":8},
+      {"id":"soup_beef_s","name":"Soup Beef S","defaultPrice":5},
+      {"id":"soup_beef_l","name":"Soup Beef L","defaultPrice":8},
+      {"id":"soup_red_peas_s","name":"Soup Red Peas S","defaultPrice":5},
+      {"id":"soup_red_peas_l","name":"Soup Red Peas L","defaultPrice":8},
+      {"id":"soup_goat_s","name":"Soup Goat S","defaultPrice":5},
+      {"id":"soup_goat_l","name":"Soup Goat L","defaultPrice":8},
+      {"id":"soup_cowfoot_s","name":"Soup Cowfoot S","defaultPrice":5},
+      {"id":"soup_cowfoot_l","name":"Soup Cowfoot L","defaultPrice":8},
+      {"id":"bev_dg_soda","name":"D & G Soda","defaultPrice":3.0},
+      {"id":"bev_snapple","name":"Snapple","defaultPrice":2.5},
+      {"id":"bev_tropical_rhythm","name":"Tropical Rhythm","defaultPrice":2.5},
+      {"id":"bev_canned_soda","name":"Canned Soda","defaultPrice":1.0},
+      {"id":"bev_water","name":"Water","defaultPrice":1.0}
+    ];
+    function money(value) {
+      const n = Number(value);
+      if (Number.isNaN(n)) return "";
+      return Number.isInteger(n) ? String(n) : n.toFixed(2);
+    }
+    function MenuMiddlewareApp() {
+      const [apiBase, setApiBase] = useState(DEFAULT_API_BASE);
+      const [screenId, setScreenId] = useState(DEFAULT_SCREEN_ID);
+      const [rows, setRows] = useState(() =>
+        INITIAL_ITEMS.map(item => ({ ...item, livePrice: item.defaultPrice, draftPrice: item.defaultPrice, selected: false }))
+      );
+      const [search, setSearch] = useState("");
+      const [status, setStatus] = useState("Ready.");
+      const [loading, setLoading] = useState(false);
+      const filteredRows = useMemo(() => {
+        const q = search.trim().toLowerCase();
+        if (!q) return rows;
+        return rows.filter(row => row.name.toLowerCase().includes(q) || row.id.toLowerCase().includes(q));
+      }, [rows, search]);
+      const selectedCount = rows.filter(r => r.selected).length;
+      async function loadFromBackend() {
+        setLoading(true);
+        try {
+          const res = await fetch(`${apiBase}/screens/${encodeURIComponent(screenId)}/prices`, { cache: "no-store" });
+          if (!res.ok) throw new Error("Failed to load prices");
+          const data = await res.json();
+          setRows(prev => prev.map(row => {
+            const incoming = data[row.id];
+            return { ...row, livePrice: incoming ?? row.livePrice, draftPrice: incoming ?? row.draftPrice };
+          }));
+          setStatus(`Loaded live prices for ${screenId}.`);
+        } catch (error) {
+          setStatus(error.message || "Could not load prices.");
+        } finally {
+          setLoading(false);
+        }
+      }
+      async function pushSelected() {
+        const updates = {};
+        rows.forEach(row => {
+          if (row.selected && row.draftPrice !== "" && row.draftPrice !== null) {
+            updates[row.id] = Number(row.draftPrice);
+          }
+        });
+        if (!Object.keys(updates).length) {
+          setStatus("Select at least one row to push.");
+          return;
+        }
+        setLoading(true);
+        try {
+          const res = await fetch(`${apiBase}/screens/${encodeURIComponent(screenId)}/prices`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(updates)
+          });
+          if (!res.ok) {
+            const err = await res.json().catch(() => ({}));
+            throw new Error(err.error || "Push failed");
+          }
+          const data = await res.json();
+          setRows(prev => prev.map(row => ({
+            ...row,
+            livePrice: data.prices[row.id] ?? row.livePrice,
+            draftPrice: data.prices[row.id] ?? row.draftPrice,
+            selected: false
+          })));
+          setStatus(`Pushed ${Object.keys(updates).length} price update(s) to ${screenId}.`);
+        } catch (error) {
+          setStatus(error.message || "Could not push prices.");
+        } finally {
+          setLoading(false);
+        }
+      }
+      async function pushSingle(row) {
+        setLoading(true);
+        try {
+          const res = await fetch(`${apiBase}/screens/${encodeURIComponent(screenId)}/prices`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ [row.id]: Number(row.draftPrice) })
+          });
+          if (!res.ok) {
+            const err = await res.json().catch(() => ({}));
+            throw new Error(err.error || "Push failed");
+          }
+          const data = await res.json();
+          setRows(prev => prev.map(r => r.id === row.id ? {
+            ...r,
+            livePrice: data.prices[row.id],
+            draftPrice: data.prices[row.id],
+            selected: false
+          } : r));
+          setStatus(`Updated ${row.name} on ${screenId}.`);
+        } catch (error) {
+          setStatus(error.message || "Could not push row.");
+        } finally {
+          setLoading(false);
+        }
+      }
+      useEffect(() => { loadFromBackend(); }, []);
+      const panel = {
+        background: "#fff",
+        border: "1px solid #e2e8f0",
+        borderRadius: 12,
+        padding: 16,
+        boxShadow: "0 8px 28px rgba(15,23,42,.05)"
+      };
+      return (
+        React.createElement("div", { style: { minHeight: "100vh", background: "#f8fafc", fontFamily: "system-ui, sans-serif", color: "#0f172a" } },
+          React.createElement("div", { style: { maxWidth: 1200, margin: "0 auto", padding: 24 } },
+            React.createElement("div", { style: { marginBottom: 18 } },
+              React.createElement("h1", { style: { margin: 0, fontSize: 28 } }, "Menu Middleware"),
+              React.createElement("div", { style: { color: "#64748b", marginTop: 6 } }, "Push in-store price updates to the overlay player backend.")
+            ),
+            React.createElement("div", { style: { ...panel, marginBottom: 16, display: "grid", gridTemplateColumns: "1.3fr 1fr 1fr auto auto", gap: 12, alignItems: "end" } },
+              React.createElement("div", null,
+                React.createElement("div", { style: { fontSize: 12, color: "#64748b", marginBottom: 6 } }, "API base"),
+                React.createElement("input", { value: apiBase, onChange: e => setApiBase(e.target.value), style: { width: "100%", padding: "10px 12px", borderRadius: 8, border: "1px solid #cbd5e1" } })
+              ),
+              React.createElement("div", null,
+                React.createElement("div", { style: { fontSize: 12, color: "#64748b", marginBottom: 6 } }, "Screen ID"),
+                React.createElement("input", { value: screenId, onChange: e => setScreenId(e.target.value), style: { width: "100%", padding: "10px 12px", borderRadius: 8, border: "1px solid #cbd5e1" } })
+              ),
+              React.createElement("div", null,
+                React.createElement("div", { style: { fontSize: 12, color: "#64748b", marginBottom: 6 } }, "Search"),
+                React.createElement("input", { value: search, onChange: e => setSearch(e.target.value), placeholder: "Find item or id", style: { width: "100%", padding: "10px 12px", borderRadius: 8, border: "1px solid #cbd5e1" } })
+              ),
+              React.createElement("button", { onClick: loadFromBackend, disabled: loading, style: { padding: "10px 14px", borderRadius: 8, border: 0, background: "#0f172a", color: "#fff", cursor: "pointer" } }, "Reload"),
+              React.createElement("button", { onClick: pushSelected, disabled: loading, style: { padding: "10px 14px", borderRadius: 8, border: 0, background: "#16a34a", color: "#fff", cursor: "pointer" } }, "Push selected")
+            ),
+            React.createElement("div", { style: { ...panel, marginBottom: 16, display: "flex", justifyContent: "space-between", alignItems: "center" } },
+              React.createElement("div", { style: { color: "#334155" } }, React.createElement("strong", null, "Status:"), " ", status),
+              React.createElement("div", { style: { color: "#64748b" } }, `Selected: ${selectedCount} / ${rows.length}`)
+            ),
+            React.createElement("div", { style: { ...panel, padding: 0, overflow: "hidden" } },
+              React.createElement("div", { style: { maxHeight: "70vh", overflow: "auto" } },
+                React.createElement("table", { style: { width: "100%", borderCollapse: "collapse" } },
+                  React.createElement("thead", { style: { position: "sticky", top: 0, background: "#f8fafc", zIndex: 1 } },
+                    React.createElement("tr", null,
+                      React.createElement("th", { style: { padding: 12, textAlign: "left", borderBottom: "1px solid #e2e8f0" } }, "Push"),
+                      React.createElement("th", { style: { padding: 12, textAlign: "left", borderBottom: "1px solid #e2e8f0" } }, "Item"),
+                      React.createElement("th", { style: { padding: 12, textAlign: "left", borderBottom: "1px solid #e2e8f0" } }, "Overlay ID"),
+                      React.createElement("th", { style: { padding: 12, textAlign: "left", borderBottom: "1px solid #e2e8f0" } }, "Live price"),
+                      React.createElement("th", { style: { padding: 12, textAlign: "left", borderBottom: "1px solid #e2e8f0" } }, "Draft price"),
+                      React.createElement("th", { style: { padding: 12, textAlign: "right", borderBottom: "1px solid #e2e8f0" } }, "Action")
+                    )
+                  ),
+                  React.createElement("tbody", null,
+                    filteredRows.map(row =>
+                      React.createElement("tr", { key: row.id },
+                        React.createElement("td", { style: { padding: 12, borderBottom: "1px solid #f1f5f9" } },
+                          React.createElement("input", {
+                            type: "checkbox",
+                            checked: row.selected,
+                            onChange: e => setRows(prev => prev.map(r => r.id === row.id ? { ...r, selected: e.target.checked } : r))
+                          })
+                        ),
+                        React.createElement("td", { style: { padding: 12, borderBottom: "1px solid #f1f5f9" } },
+                          React.createElement("div", { style: { fontWeight: 600 } }, row.name)
+                        ),
+                        React.createElement("td", { style: { padding: 12, borderBottom: "1px solid #f1f5f9", color: "#64748b", fontFamily: "monospace" } }, row.id),
+                        React.createElement("td", { style: { padding: 12, borderBottom: "1px solid #f1f5f9" } }, money(row.livePrice)),
+                        React.createElement("td", { style: { padding: 12, borderBottom: "1px solid #f1f5f9" } },
+                          React.createElement("input", {
+                            value: row.draftPrice,
+                            onChange: e => setRows(prev => prev.map(r => r.id === row.id ? { ...r, draftPrice: e.target.value } : r)),
+                            style: { width: 110, padding: "8px 10px", borderRadius: 8, border: "1px solid #cbd5e1" }
+                          })
+                        ),
+                        React.createElement("td", { style: { padding: 12, borderBottom: "1px solid #f1f5f9", textAlign: "right" } },
+                          React.createElement("button", {
+                            onClick: () => pushSingle(row),
+                            disabled: loading || row.draftPrice === "",
+                            style: { padding: "8px 12px", borderRadius: 8, border: 0, background: "#2563eb", color: "#fff", cursor: "pointer" }
+                          }, "Push row")
+                        )
+                      )
+                    )
+                  )
+                )
+              )
+            )
+          )
+        )
+      );
+    }
+    // Insert the full INITIAL_ITEMS array from your JSX file here:
+    window.INITIAL_ITEMS = [/* ... */]; // REPLACE THIS LINE
+    // Replace the above line with the full array from your original file.
+    window.INITIAL_ITEMS = [
+      {"id":"beef_liver_s","name":"Beef Liver S","defaultPrice":7},
+      {"id":"beef_liver_m","name":"Beef Liver M","defaultPrice":12},
+      {"id":"beef_liver_l","name":"Beef Liver L","defaultPrice":15},
+      {"id":"ackee_saltfish_s","name":"Ackee & Saltfish S","defaultPrice":11},
+      {"id":"ackee_saltfish_m","name":"Ackee & Saltfish M","defaultPrice":15},
+      {"id":"ackee_saltfish_l","name":"Ackee & Saltfish L","defaultPrice":18},
+      {"id":"callaloo_saltfish_s","name":"Callaloo & Saltfish S","defaultPrice":7},
+      {"id":"callaloo_saltfish_m","name":"Callaloo & Saltfish M","defaultPrice":12},
+      {"id":"callaloo_saltfish_l","name":"Callaloo & Saltfish L","defaultPrice":15},
+      {"id":"butterbeans_saltfish_s","name":"Butterbeans & Saltfish S","defaultPrice":7},
+      {"id":"butterbeans_saltfish_m","name":"Butterbeans & Saltfish M","defaultPrice":12},
+      {"id":"butterbeans_saltfish_l","name":"Butterbeans & Saltfish L","defaultPrice":15},
+      {"id":"cookup_saltfish_s","name":"Cook-up Saltfish S","defaultPrice":7},
+      {"id":"cookup_saltfish_m","name":"Cook-up Saltfish M","defaultPrice":12},
+      {"id":"cookup_saltfish_l","name":"Cook-up Saltfish L","defaultPrice":15},
+      {"id":"kidney_s","name":"Kidney S","defaultPrice":7},
+      {"id":"kidney_m","name":"Kidney M","defaultPrice":12},
+      {"id":"kidney_l","name":"Kidney L","defaultPrice":15},
+      {"id":"porridge_oatmeal_s","name":"Oatmeal S","defaultPrice":5},
+      {"id":"porridge_oatmeal_l","name":"Oatmeal L","defaultPrice":8},
+      {"id":"porridge_peanut_s","name":"Peanut S","defaultPrice":5},
+      {"id":"porridge_peanut_l","name":"Peanut L","defaultPrice":8},
+      {"id":"porridge_plantain_s","name":"Plantain S","defaultPrice":5},
+      {"id":"porridge_plantain_l","name":"Plantain L","defaultPrice":8},
+      {"id":"porridge_carrot_s","name":"Carrot S","defaultPrice":5},
+      {"id":"porridge_carrot_l","name":"Carrot L","defaultPrice":8},
+      {"id":"porridge_cornmeal_s","name":"Cornmeal S","defaultPrice":5},
+      {"id":"porridge_cornmeal_l","name":"Cornmeal L","defaultPrice":8},
+      {"id":"patty_curry_chicken","name":"Curry Chicken","defaultPrice":3.5},
+      {"id":"patty_beef_spicy","name":"Beef (Spicy)","defaultPrice":3.5},
+      {"id":"patty_beef_mild","name":"Beef Mild","defaultPrice":3.5},
+      {"id":"patty_beefy_cheese","name":"Beefy Cheese","defaultPrice":3.5},
+      {"id":"patty_veggie","name":"Veggie","defaultPrice":3.5},
+      {"id":"patty_spinach","name":"Spinach","defaultPrice":4.0},
+      {"id":"patty_spinach_cheese","name":"Spinach w/ cheese","defaultPrice":4.5},
+      {"id":"patty_coco_bread","name":"Coco Bread","defaultPrice":1.5},
+      {"id":"soup_chicken_s","name":"Soup Chicken S","defaultPrice":5},
+      {"id":"soup_chicken_l","name":"Soup Chicken L","defaultPrice":8},
+      {"id":"soup_beef_s","name":"Soup Beef S","defaultPrice":5},
+      {"id":"soup_beef_l","name":"Soup Beef L","defaultPrice":8},
+      {"id":"soup_red_peas_s","name":"Soup Red Peas S","defaultPrice":5},
+      {"id":"soup_red_peas_l","name":"Soup Red Peas L","defaultPrice":8},
+      {"id":"soup_goat_s","name":"Soup Goat S","defaultPrice":5},
+      {"id":"soup_goat_l","name":"Soup Goat L","defaultPrice":8},
+      {"id":"soup_cowfoot_s","name":"Soup Cowfoot S","defaultPrice":5},
+      {"id":"soup_cowfoot_l","name":"Soup Cowfoot L","defaultPrice":8},
+      {"id":"bev_dg_soda","name":"D & G Soda","defaultPrice":3.0},
+      {"id":"bev_snapple","name":"Snapple","defaultPrice":2.5},
+      {"id":"bev_tropical_rhythm","name":"Tropical Rhythm","defaultPrice":2.5},
+      {"id":"bev_canned_soda","name":"Canned Soda","defaultPrice":1.0},
+      {"id":"bev_water","name":"Water","defaultPrice":1.0}
+    ];
+    window.INITIAL_ITEMS = window.INITIAL_ITEMS;
+    ReactDOM.createRoot(document.getElementById("root")).render(React.createElement(MenuMiddlewareApp));
+  </script>
+</body>
+</html>

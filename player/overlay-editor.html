@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Menu Overlay Editor</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #111;
+      color: #f2f2f2;
+      display: grid;
+      grid-template-columns: 360px 1fr;
+      min-height: 100vh;
+    }
+    aside {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      padding: 16px;
+      border-right: 1px solid rgba(255,255,255,.12);
+      overflow: auto;
+      background: #171717;
+    }
+    h1 { margin: 0 0 8px; font-size: 24px; }
+    .hint, .status {
+      padding: 12px;
+      border-radius: 12px;
+      background: rgba(255,255,255,.06);
+      margin-bottom: 14px;
+      font-size: 14px;
+      line-height: 1.35;
+    }
+    .toolbar { display:flex; gap:8px; flex-wrap:wrap; margin: 14px 0; }
+    button {
+      border: 0;
+      background: #f5c518;
+      color: #111;
+      padding: 10px 12px;
+      border-radius: 10px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    button.secondary {
+      background:#2a2a2a; color:#fff; border:1px solid rgba(255,255,255,.15);
+    }
+    .field { margin: 10px 0; }
+    .field label {
+      display:block; margin-bottom:4px; font-size:12px; opacity:.75;
+      text-transform: uppercase; letter-spacing:.04em;
+    }
+    .field input {
+      width:100%; padding:10px; border-radius:10px; border:1px solid rgba(255,255,255,.12);
+      background:#0f0f0f; color:#fff;
+    }
+    .list {
+      margin-top: 12px;
+      display: grid;
+      gap: 6px;
+      max-height: 40vh;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+    .item {
+      padding:8px 10px; border-radius:10px; background:rgba(255,255,255,.04);
+      cursor:pointer; border:1px solid transparent;
+    }
+    .item.active {
+      border-color:#f5c518; background:rgba(245,197,24,.12);
+    }
+    .micro { font-size:12px; opacity:.75; margin-top: 8px; }
+    main {
+      overflow:auto;
+      padding:16px;
+      display:flex;
+      justify-content:center;
+      align-items:flex-start;
+      min-height:100vh;
+    }
+    .stage {
+      position: relative;
+      width: min(760px, calc(100vw - 420px));
+      aspect-ratio: 1080 / 1780;
+      background: #000;
+      border: 1px solid rgba(255,255,255,.12);
+      box-shadow: 0 20px 60px rgba(0,0,0,.45);
+      overflow: hidden;
+      margin-top: 6px;
+    }
+    .frame-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: fill;
+      display: block;
+      z-index: 1;
+      user-select: none;
+      pointer-events: none;
+    }
+    .player-fit-guide {
+      position: absolute;
+      z-index: 2;
+      border: 1px dashed rgba(245,197,24,.9);
+      background: rgba(245,197,24,.06);
+      pointer-events: none;
+    }
+    .player-fit-label {
+      position: absolute;
+      left: 8px;
+      top: 8px;
+      z-index: 3;
+      font-size: 11px;
+      background: rgba(0,0,0,.6);
+      color: #fff;
+      padding: 4px 6px;
+      border-radius: 8px;
+      pointer-events: none;
+    }
+    #overlay {
+      position:absolute;
+      inset:0;
+      z-index: 4;
+    }
+    .overlay-item {
+      position:absolute;
+      transform: translate(-50%, -50%);
+      min-width: 8px;
+      padding: 0;
+      text-align:center;
+      background: transparent;
+      color:#111;
+      border:0;
+      border-radius:0;
+      box-shadow:none;
+      cursor:grab;
+      user-select:none;
+      font-weight:800;
+      line-height:1;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+    .overlay-item.active {
+      outline: 1px dashed rgba(245,197,24,.95);
+      z-index: 5;
+    }
+    textarea {
+      width:100%; min-height:220px; margin-top:14px; border-radius:12px;
+      border:1px solid rgba(255,255,255,.15); background:#0f0f0f; color:#e8e8e8;
+      padding:12px; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size:12px;
+    }
+  </style>
+</head>
+<body>
+  <aside>
+    <h1>Overlay editor</h1>
+    <div class="hint">This editor stays upright, but now shows a yellow player-fit guide. Place numbers based on the normal image while using that guide as the approximate final visible area in the rotated player.</div>
+
+    <div class="toolbar">
+      <button id="copyBtn">Copy JSON</button>
+      <button class="secondary" id="downloadBtn">Download JSON</button>
+      <button class="secondary" id="resetBtn">Reset to file</button>
+    </div>
+
+    <div class="status" id="saveStatus">Loading…</div>
+
+    <div class="field">
+      <label>Selected label</label>
+      <input id="selectedId" readonly />
+    </div>
+    <div class="field">
+      <label>X</label>
+      <input id="posX" type="number" step="1" />
+    </div>
+    <div class="field">
+      <label>Y</label>
+      <input id="posY" type="number" step="1" />
+    </div>
+    <div class="field">
+      <label>Text size (px)</label>
+      <input id="fontSize" type="number" step="1" min="8" max="120" />
+    </div>
+
+    <div class="micro">Arrow keys nudge by 1px. Hold Shift for 10px.</div>
+    <div class="micro">Yellow guide = closest approximation of the player-fit region without rotating the editor.</div>
+
+    <div class="list" id="list"></div>
+    <textarea id="exportBox" spellcheck="false"></textarea>
+  </aside>
+
+  <main>
+    <div class="stage" id="stage">
+      <img src="./Menu1_test_static.png" alt="" class="frame-img" />
+      <div class="player-fit-guide" id="fitGuide"></div>
+      <div class="player-fit-label" id="fitLabel">player-fit guide</div>
+      <div id="overlay"></div>
+    </div>
+  </main>
+
+  <script>
+    const DEFAULT_MAP = {"canvas": {"width": 1080, "height": 1780}, "items": [{"id": "beef_liver_s", "label": "Beef Liver S", "x": 385, "y": 380, "fontSize": 23}, {"id": "beef_liver_m", "label": "Beef Liver M", "x": 448, "y": 380, "fontSize": 23}, {"id": "beef_liver_l", "label": "Beef Liver L", "x": 515, "y": 380, "fontSize": 23}, {"id": "ackee_saltfish_s", "label": "Ackee & Saltfish S", "x": 384, "y": 421, "fontSize": 23}, {"id": "ackee_saltfish_m", "label": "Ackee & Saltfish M", "x": 450, "y": 421, "fontSize": 23}, {"id": "ackee_saltfish_l", "label": "Ackee & Saltfish L", "x": 518, "y": 421, "fontSize": 23}, {"id": "callaloo_saltfish_s", "label": "Callaloo & Saltfish S", "x": 385, "y": 466, "fontSize": 23}, {"id": "callaloo_saltfish_m", "label": "Callaloo & Saltfish M", "x": 451, "y": 465, "fontSize": 23}, {"id": "callaloo_saltfish_l", "label": "Callaloo & Saltfish L", "x": 519, "y": 465, "fontSize": 23}, {"id": "butterbeans_saltfish_s", "label": "Butterbeans & Saltfish S", "x": 385, "y": 511, "fontSize": 23}, {"id": "butterbeans_saltfish_m", "label": "Butterbeans & Saltfish M", "x": 452, "y": 511, "fontSize": 23}, {"id": "butterbeans_saltfish_l", "label": "Butterbeans & Saltfish L", "x": 521, "y": 510, "fontSize": 23}, {"id": "cookup_saltfish_s", "label": "Cook-up Saltfish S", "x": 383, "y": 555, "fontSize": 23}, {"id": "cookup_saltfish_m", "label": "Cook-up Saltfish M", "x": 451, "y": 556, "fontSize": 23}, {"id": "cookup_saltfish_l", "label": "Cook-up Saltfish L", "x": 521, "y": 558, "fontSize": 23}, {"id": "kidney_s", "label": "Kidney S", "x": 384, "y": 595, "fontSize": 23}, {"id": "kidney_m", "label": "Kidney M", "x": 453, "y": 595, "fontSize": 23}, {"id": "kidney_l", "label": "Kidney L", "x": 521, "y": 595, "fontSize": 23}, {"id": "stew_chicken_s", "label": "Stew Chicken S", "x": 384, "y": 635, "fontSize": 23}, {"id": "stew_chicken_m", "label": "Stew Chicken M", "x": 453, "y": 635, "fontSize": 23}, {"id": "stew_chicken_l", "label": "Stew Chicken L", "x": 521, "y": 635, "fontSize": 23}, {"id": "porridge_oatmeal_s", "label": "Oatmeal S", "x": 902, "y": 383, "fontSize": 16}, {"id": "porridge_oatmeal_l", "label": "Oatmeal L", "x": 985, "y": 383, "fontSize": 16}, {"id": "porridge_peanut_s", "label": "Peanut S", "x": 902, "y": 453, "fontSize": 16}, {"id": "porridge_peanut_l", "label": "Peanut L", "x": 985, "y": 453, "fontSize": 16}, {"id": "porridge_plantain_s", "label": "Plantain S", "x": 902, "y": 522, "fontSize": 16}, {"id": "porridge_plantain_l", "label": "Plantain L", "x": 985, "y": 522, "fontSize": 16}, {"id": "porridge_carrot_s", "label": "Carrot S", "x": 902, "y": 592, "fontSize": 16}, {"id": "porridge_carrot_l", "label": "Carrot L", "x": 985, "y": 592, "fontSize": 16}, {"id": "porridge_cornmeal_s", "label": "Cornmeal S", "x": 902, "y": 661, "fontSize": 16}, {"id": "porridge_cornmeal_l", "label": "Cornmeal L", "x": 985, "y": 661, "fontSize": 16}, {"id": "patty_curry_chicken", "label": "Curry Chicken", "x": 453, "y": 956, "fontSize": 23}, {"id": "patty_beef_spicy", "label": "Beef (Spicy)", "x": 454, "y": 1001, "fontSize": 23}, {"id": "patty_beef_mild", "label": "Beef Mild", "x": 453, "y": 1042, "fontSize": 23}, {"id": "patty_beefy_cheese", "label": "Beefy Cheese", "x": 454, "y": 1079, "fontSize": 23}, {"id": "patty_veggie", "label": "Veggie", "x": 454, "y": 1127, "fontSize": 23}, {"id": "patty_spinach", "label": "Spinach", "x": 433, "y": 1167, "fontSize": 23}, {"id": "patty_spinach_cheese", "label": "Spinach w/ cheese", "x": 478, "y": 1420, "fontSize": 23}, {"id": "patty_coco_bread", "label": "Coco Bread", "x": 478, "y": 1484, "fontSize": 23}, {"id": "soup_chicken_s", "label": "Soup Chicken S", "x": 886, "y": 1058, "fontSize": 23}, {"id": "soup_chicken_l", "label": "Soup Chicken L", "x": 971, "y": 1058, "fontSize": 16}, {"id": "soup_beef_s", "label": "Soup Beef S", "x": 886, "y": 1118, "fontSize": 16}, {"id": "soup_beef_l", "label": "Soup Beef L", "x": 971, "y": 1118, "fontSize": 16}, {"id": "soup_red_peas_s", "label": "Soup Red Peas S", "x": 886, "y": 1180, "fontSize": 16}, {"id": "soup_red_peas_l", "label": "Soup Red Peas L", "x": 971, "y": 1180, "fontSize": 16}, {"id": "soup_goat_s", "label": "Soup Goat S", "x": 886, "y": 1242, "fontSize": 16}, {"id": "soup_goat_l", "label": "Soup Goat L", "x": 971, "y": 1242, "fontSize": 16}, {"id": "soup_cowfoot_s", "label": "Soup Cowfoot S", "x": 886, "y": 1304, "fontSize": 16}, {"id": "soup_cowfoot_l", "label": "Soup Cowfoot L", "x": 971, "y": 1304, "fontSize": 16}, {"id": "bev_dg_soda", "label": "D & G Soda", "x": 395, "y": 1560, "fontSize": 16}, {"id": "bev_snapple", "label": "Snapple", "x": 395, "y": 1621, "fontSize": 16}, {"id": "bev_tropical_rhythm", "label": "Tropical Rhythm", "x": 395, "y": 1684, "fontSize": 16}, {"id": "bev_canned_soda", "label": "Canned Soda", "x": 395, "y": 1747, "fontSize": 16}, {"id": "bev_water", "label": "Water", "x": 395, "y": 1752, "fontSize": 16}]};
+    const PRICE_VALUES = {"beef_liver_s": 7, "beef_liver_m": 12, "beef_liver_l": 15, "ackee_saltfish_s": 11, "ackee_saltfish_m": 15, "ackee_saltfish_l": 18, "callaloo_saltfish_s": 7, "callaloo_saltfish_m": 12, "callaloo_saltfish_l": 15, "butterbeans_saltfish_s": 7, "butterbeans_saltfish_m": 12, "butterbeans_saltfish_l": 15, "cookup_saltfish_s": 7, "cookup_saltfish_m": 12, "cookup_saltfish_l": 15, "kidney_s": 7, "kidney_m": 12, "kidney_l": 15, "stew_chicken_s": 7, "stew_chicken_m": 12, "stew_chicken_l": 15, "porridge_oatmeal_s": 5, "porridge_oatmeal_l": 8, "porridge_peanut_s": 5, "porridge_peanut_l": 8, "porridge_plantain_s": 5, "porridge_plantain_l": 8, "porridge_carrot_s": 5, "porridge_carrot_l": 8, "porridge_cornmeal_s": 5, "porridge_cornmeal_l": 8, "patty_curry_chicken": 3.5, "patty_beef_spicy": 3.5, "patty_beef_mild": 3.5, "patty_beefy_cheese": 3.5, "patty_veggie": 3.5, "patty_spinach": 4.0, "patty_spinach_cheese": 4.5, "patty_coco_bread": 1.5, "soup_chicken_s": 5, "soup_chicken_l": 8, "soup_beef_s": 5, "soup_beef_l": 8, "soup_red_peas_s": 5, "soup_red_peas_l": 8, "soup_goat_s": 5, "soup_goat_l": 8, "soup_cowfoot_s": 5, "soup_cowfoot_l": 8, "bev_dg_soda": 3.0, "bev_snapple": 2.5, "bev_tropical_rhythm": 2.5, "bev_canned_soda": 1.0, "bev_water": 1.0};
+    const STORAGE_KEY = "mckenzie_overlay_editor_upright_fit_v1";
+
+    const stage = document.getElementById("stage");
+    const overlay = document.getElementById("overlay");
+    const fitGuide = document.getElementById("fitGuide");
+    const fitLabel = document.getElementById("fitLabel");
+    const list = document.getElementById("list");
+    const exportBox = document.getElementById("exportBox");
+    const selectedId = document.getElementById("selectedId");
+    const posX = document.getElementById("posX");
+    const posY = document.getElementById("posY");
+    const fontSize = document.getElementById("fontSize");
+    const saveStatus = document.getElementById("saveStatus");
+
+    function clone(obj) {
+      return JSON.parse(JSON.stringify(obj));
+    }
+
+    function normalizeMap(map) {
+      const out = clone(map);
+      out.items = (out.items || []).map(item => {
+        if (!Number.isFinite(item.fontSize)) item.fontSize = 16;
+        return item;
+      });
+      return out;
+    }
+
+    function setStatus(text) {
+      saveStatus.textContent = text;
+    }
+
+    function loadMap() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return normalizeMap(DEFAULT_MAP);
+        const parsed = JSON.parse(raw);
+        if (!parsed || !Array.isArray(parsed.items)) return normalizeMap(DEFAULT_MAP);
+        return normalizeMap(parsed);
+      } catch (e) {
+        return normalizeMap(DEFAULT_MAP);
+      }
+    }
+
+    const state = {
+      map: loadMap(),
+      activeId: null
+    };
+
+    function getItem(id) {
+      return state.map.items.find(item => item.id === id);
+    }
+
+    function formatPrice(value) {
+      const n = Number(value);
+      if (Number.isNaN(n)) return String(value ?? "");
+      return Number.isInteger(n) ? String(n) : n.toFixed(2);
+    }
+
+    function updateFitGuide() {
+      const rect = stage.getBoundingClientRect();
+      const stageW = rect.width;
+      const stageH = rect.height;
+      const visibleW = Math.min(stageW, stageH);
+      const visibleH = stageH;
+      const left = (stageW - visibleW) / 2;
+      fitGuide.style.left = left + "px";
+      fitGuide.style.top = "0px";
+      fitGuide.style.width = visibleW + "px";
+      fitGuide.style.height = visibleH + "px";
+      fitLabel.textContent = "player-fit guide: " + Math.round(visibleW) + " × " + Math.round(visibleH);
+    }
+
+    function renderList() {
+      list.innerHTML = "";
+      for (const item of state.map.items) {
+        const el = document.createElement("div");
+        el.className = "item" + (item.id === state.activeId ? " active" : "");
+        el.textContent = item.label;
+        el.onclick = () => setActive(item.id);
+        list.appendChild(el);
+      }
+    }
+
+    function renderExport() {
+      exportBox.value = JSON.stringify(state.map, null, 2);
+    }
+
+    function saveNow() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state.map));
+      setStatus("Autosaved to this browser.");
+    }
+
+    let saveTimer = null;
+    function queueSave() {
+      clearTimeout(saveTimer);
+      saveTimer = setTimeout(saveNow, 120);
+    }
+
+    function syncInputs() {
+      const item = getItem(state.activeId);
+      selectedId.value = item?.id || "";
+      posX.value = item?.x ?? "";
+      posY.value = item?.y ?? "";
+      fontSize.value = item?.fontSize ?? 16;
+    }
+
+    function renderStage() {
+      overlay.innerHTML = "";
+      updateFitGuide();
+
+      for (const item of state.map.items) {
+        const el = document.createElement("div");
+        el.className = "overlay-item" + (item.id === state.activeId ? " active" : "");
+        el.dataset.id = item.id;
+        el.style.left = (item.x / state.map.canvas.width * 100) + "%";
+        el.style.top = (item.y / state.map.canvas.height * 100) + "%";
+        el.style.fontSize = (item.fontSize || 16) + "px";
+        el.textContent = formatPrice(PRICE_VALUES[item.id] ?? "");
+        el.onclick = (e) => {
+          e.stopPropagation();
+          setActive(item.id);
+        };
+        attachDrag(el, item.id);
+        overlay.appendChild(el);
+      }
+
+      renderList();
+      renderExport();
+      syncInputs();
+      queueSave();
+    }
+
+    function setActive(id) {
+      state.activeId = id;
+      renderStage();
+    }
+
+    function updatePosition(axis, value) {
+      const item = getItem(state.activeId);
+      if (!item) return;
+      const n = Number(value);
+      if (Number.isNaN(n)) return;
+      if (axis === "x") item.x = Math.max(0, Math.min(state.map.canvas.width, Math.round(n)));
+      if (axis === "y") item.y = Math.max(0, Math.min(state.map.canvas.height, Math.round(n)));
+      renderStage();
+    }
+
+    function updateFontSize(value) {
+      const item = getItem(state.activeId);
+      if (!item) return;
+      const n = Number(value);
+      if (Number.isNaN(n)) return;
+      item.fontSize = Math.max(8, Math.min(120, Math.round(n)));
+      renderStage();
+    }
+
+    posX.addEventListener("input", () => updatePosition("x", posX.value));
+    posX.addEventListener("change", () => updatePosition("x", posX.value));
+    posY.addEventListener("input", () => updatePosition("y", posY.value));
+    posY.addEventListener("change", () => updatePosition("y", posY.value));
+    fontSize.addEventListener("input", () => updateFontSize(fontSize.value));
+    fontSize.addEventListener("change", () => updateFontSize(fontSize.value));
+
+    function attachDrag(el, id) {
+      let dragging = false;
+
+      function move(clientX, clientY) {
+        const rect = overlay.getBoundingClientRect();
+        const x = ((clientX - rect.left) / rect.width) * state.map.canvas.width;
+        const y = ((clientY - rect.top) / rect.height) * state.map.canvas.height;
+        const item = getItem(id);
+        item.x = Math.max(0, Math.min(state.map.canvas.width, Math.round(x)));
+        item.y = Math.max(0, Math.min(state.map.canvas.height, Math.round(y)));
+        state.activeId = id;
+        renderStage();
+      }
+
+      el.addEventListener("pointerdown", (e) => {
+        dragging = true;
+        el.setPointerCapture(e.pointerId);
+        state.activeId = id;
+        move(e.clientX, e.clientY);
+      });
+      el.addEventListener("pointermove", (e) => {
+        if (!dragging) return;
+        move(e.clientX, e.clientY);
+      });
+      el.addEventListener("pointerup", () => dragging = false);
+      el.addEventListener("pointercancel", () => dragging = false);
+    }
+
+    document.addEventListener("keydown", (e) => {
+      const item = getItem(state.activeId);
+      if (!item) return;
+      const step = e.shiftKey ? 10 : 1;
+      if (e.key === "ArrowLeft") item.x -= step;
+      else if (e.key === "ArrowRight") item.x += step;
+      else if (e.key === "ArrowUp") item.y -= step;
+      else if (e.key === "ArrowDown") item.y += step;
+      else return;
+      item.x = Math.max(0, Math.min(state.map.canvas.width, item.x));
+      item.y = Math.max(0, Math.min(state.map.canvas.height, item.y));
+      renderStage();
+      e.preventDefault();
+    });
+
+    document.getElementById("copyBtn").onclick = async () => {
+      renderExport();
+      await navigator.clipboard.writeText(exportBox.value);
+      setStatus("JSON copied.");
+    };
+
+    document.getElementById("downloadBtn").onclick = () => {
+      renderExport();
+      const blob = new Blob([exportBox.value], { type: "application/json" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "overlay-map.json";
+      a.click();
+      URL.revokeObjectURL(a.href);
+      setStatus("Downloaded overlay-map.json");
+    };
+
+    document.getElementById("resetBtn").onclick = () => {
+      localStorage.removeItem(STORAGE_KEY);
+      state.map = normalizeMap(DEFAULT_MAP);
+      state.activeId = state.map.items[0]?.id ?? null;
+      renderStage();
+      setStatus("Reset to file map.");
+    };
+
+    exportBox.addEventListener("change", () => {
+      try {
+        const parsed = JSON.parse(exportBox.value);
+        if (!parsed || !Array.isArray(parsed.items)) throw new Error("bad");
+        state.map = normalizeMap(parsed);
+        if (!getItem(state.activeId)) state.activeId = state.map.items[0]?.id ?? null;
+        renderStage();
+        setStatus("Loaded JSON from export box.");
+      } catch (e) {
+        setStatus("Invalid JSON in export box.");
+      }
+    });
+
+    overlay.onclick = () => {
+      state.activeId = null;
+      renderStage();
+    };
+
+    window.addEventListener("resize", renderStage);
+
+    setStatus(localStorage.getItem(STORAGE_KEY) ? "Loaded autosaved map from this browser." : "Using file map.");
+    setActive(state.map.items[0]?.id ?? null);
+  </script>
+</body>
+</html>
