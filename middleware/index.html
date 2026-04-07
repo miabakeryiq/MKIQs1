@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Menu Middleware App</title>
-  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
-  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script crossorigin src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
+  <script crossorigin src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
   <style>
     body { background: #f8fafc; font-family: system-ui, sans-serif; color: #0f172a; }
     #root { min-height: 100vh; }
@@ -15,9 +15,14 @@
 <body>
   <div id="root"></div>
   <script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function() {
     const { useState, useEffect, useMemo } = React;
-    const DEFAULT_API_BASE = "http://localhost:3000";
+
+    // ← UPDATE THIS once Render gives you a URL
+    // e.g. "https://mckcode-menu-backend.onrender.com"
+    const DEFAULT_API_BASE = "https://YOUR-SERVICE-NAME.onrender.com";
     const DEFAULT_SCREEN_ID = "mckenzie-main";
+
     const INITIAL_ITEMS = [
       {"id":"beef_liver_s","name":"Beef Liver S","defaultPrice":7},
       {"id":"beef_liver_m","name":"Beef Liver M","defaultPrice":12},
@@ -74,11 +79,13 @@
       {"id":"bev_canned_soda","name":"Canned Soda","defaultPrice":1.0},
       {"id":"bev_water","name":"Water","defaultPrice":1.0}
     ];
+
     function money(value) {
       const n = Number(value);
       if (Number.isNaN(n)) return "";
       return Number.isInteger(n) ? String(n) : n.toFixed(2);
     }
+
     function MenuMiddlewareApp() {
       const [apiBase, setApiBase] = useState(DEFAULT_API_BASE);
       const [screenId, setScreenId] = useState(DEFAULT_SCREEN_ID);
@@ -88,12 +95,15 @@
       const [search, setSearch] = useState("");
       const [status, setStatus] = useState("Ready.");
       const [loading, setLoading] = useState(false);
+
       const filteredRows = useMemo(() => {
         const q = search.trim().toLowerCase();
         if (!q) return rows;
         return rows.filter(row => row.name.toLowerCase().includes(q) || row.id.toLowerCase().includes(q));
       }, [rows, search]);
+
       const selectedCount = rows.filter(r => r.selected).length;
+
       async function loadFromBackend() {
         setLoading(true);
         try {
@@ -111,6 +121,7 @@
           setLoading(false);
         }
       }
+
       async function pushSelected() {
         const updates = {};
         rows.forEach(row => {
@@ -147,6 +158,7 @@
           setLoading(false);
         }
       }
+
       async function pushSingle(row) {
         setLoading(true);
         try {
@@ -173,7 +185,9 @@
           setLoading(false);
         }
       }
+
       useEffect(() => { loadFromBackend(); }, []);
+
       const panel = {
         background: "#fff",
         border: "1px solid #e2e8f0",
@@ -181,6 +195,7 @@
         padding: 16,
         boxShadow: "0 8px 28px rgba(15,23,42,.05)"
       };
+
       return (
         React.createElement("div", { style: { minHeight: "100vh", background: "#f8fafc", fontFamily: "system-ui, sans-serif", color: "#0f172a" } },
           React.createElement("div", { style: { maxWidth: 1200, margin: "0 auto", padding: 24 } },
@@ -260,64 +275,9 @@
         )
       );
     }
-    // Insert the full INITIAL_ITEMS array from your JSX file here:
-    window.INITIAL_ITEMS = [/* ... */]; // REPLACE THIS LINE
-    // Replace the above line with the full array from your original file.
-    window.INITIAL_ITEMS = [
-      {"id":"beef_liver_s","name":"Beef Liver S","defaultPrice":7},
-      {"id":"beef_liver_m","name":"Beef Liver M","defaultPrice":12},
-      {"id":"beef_liver_l","name":"Beef Liver L","defaultPrice":15},
-      {"id":"ackee_saltfish_s","name":"Ackee & Saltfish S","defaultPrice":11},
-      {"id":"ackee_saltfish_m","name":"Ackee & Saltfish M","defaultPrice":15},
-      {"id":"ackee_saltfish_l","name":"Ackee & Saltfish L","defaultPrice":18},
-      {"id":"callaloo_saltfish_s","name":"Callaloo & Saltfish S","defaultPrice":7},
-      {"id":"callaloo_saltfish_m","name":"Callaloo & Saltfish M","defaultPrice":12},
-      {"id":"callaloo_saltfish_l","name":"Callaloo & Saltfish L","defaultPrice":15},
-      {"id":"butterbeans_saltfish_s","name":"Butterbeans & Saltfish S","defaultPrice":7},
-      {"id":"butterbeans_saltfish_m","name":"Butterbeans & Saltfish M","defaultPrice":12},
-      {"id":"butterbeans_saltfish_l","name":"Butterbeans & Saltfish L","defaultPrice":15},
-      {"id":"cookup_saltfish_s","name":"Cook-up Saltfish S","defaultPrice":7},
-      {"id":"cookup_saltfish_m","name":"Cook-up Saltfish M","defaultPrice":12},
-      {"id":"cookup_saltfish_l","name":"Cook-up Saltfish L","defaultPrice":15},
-      {"id":"kidney_s","name":"Kidney S","defaultPrice":7},
-      {"id":"kidney_m","name":"Kidney M","defaultPrice":12},
-      {"id":"kidney_l","name":"Kidney L","defaultPrice":15},
-      {"id":"porridge_oatmeal_s","name":"Oatmeal S","defaultPrice":5},
-      {"id":"porridge_oatmeal_l","name":"Oatmeal L","defaultPrice":8},
-      {"id":"porridge_peanut_s","name":"Peanut S","defaultPrice":5},
-      {"id":"porridge_peanut_l","name":"Peanut L","defaultPrice":8},
-      {"id":"porridge_plantain_s","name":"Plantain S","defaultPrice":5},
-      {"id":"porridge_plantain_l","name":"Plantain L","defaultPrice":8},
-      {"id":"porridge_carrot_s","name":"Carrot S","defaultPrice":5},
-      {"id":"porridge_carrot_l","name":"Carrot L","defaultPrice":8},
-      {"id":"porridge_cornmeal_s","name":"Cornmeal S","defaultPrice":5},
-      {"id":"porridge_cornmeal_l","name":"Cornmeal L","defaultPrice":8},
-      {"id":"patty_curry_chicken","name":"Curry Chicken","defaultPrice":3.5},
-      {"id":"patty_beef_spicy","name":"Beef (Spicy)","defaultPrice":3.5},
-      {"id":"patty_beef_mild","name":"Beef Mild","defaultPrice":3.5},
-      {"id":"patty_beefy_cheese","name":"Beefy Cheese","defaultPrice":3.5},
-      {"id":"patty_veggie","name":"Veggie","defaultPrice":3.5},
-      {"id":"patty_spinach","name":"Spinach","defaultPrice":4.0},
-      {"id":"patty_spinach_cheese","name":"Spinach w/ cheese","defaultPrice":4.5},
-      {"id":"patty_coco_bread","name":"Coco Bread","defaultPrice":1.5},
-      {"id":"soup_chicken_s","name":"Soup Chicken S","defaultPrice":5},
-      {"id":"soup_chicken_l","name":"Soup Chicken L","defaultPrice":8},
-      {"id":"soup_beef_s","name":"Soup Beef S","defaultPrice":5},
-      {"id":"soup_beef_l","name":"Soup Beef L","defaultPrice":8},
-      {"id":"soup_red_peas_s","name":"Soup Red Peas S","defaultPrice":5},
-      {"id":"soup_red_peas_l","name":"Soup Red Peas L","defaultPrice":8},
-      {"id":"soup_goat_s","name":"Soup Goat S","defaultPrice":5},
-      {"id":"soup_goat_l","name":"Soup Goat L","defaultPrice":8},
-      {"id":"soup_cowfoot_s","name":"Soup Cowfoot S","defaultPrice":5},
-      {"id":"soup_cowfoot_l","name":"Soup Cowfoot L","defaultPrice":8},
-      {"id":"bev_dg_soda","name":"D & G Soda","defaultPrice":3.0},
-      {"id":"bev_snapple","name":"Snapple","defaultPrice":2.5},
-      {"id":"bev_tropical_rhythm","name":"Tropical Rhythm","defaultPrice":2.5},
-      {"id":"bev_canned_soda","name":"Canned Soda","defaultPrice":1.0},
-      {"id":"bev_water","name":"Water","defaultPrice":1.0}
-    ];
-    window.INITIAL_ITEMS = window.INITIAL_ITEMS;
+
     ReactDOM.createRoot(document.getElementById("root")).render(React.createElement(MenuMiddlewareApp));
+    }); // end DOMContentLoaded
   </script>
 </body>
 </html>
