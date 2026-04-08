@@ -7,379 +7,379 @@
     {
       "id": "beef_liver_s",
       "label": "Beef Liver S",
-      "x": 385,
-      "y": 380,
-      "fontSize": 23
+      "x": 387,
+      "y": 393,
+      "fontSize": 18
     },
     {
       "id": "beef_liver_m",
       "label": "Beef Liver M",
-      "x": 448,
-      "y": 380,
-      "fontSize": 23
+      "x": 449,
+      "y": 393,
+      "fontSize": 18
     },
     {
       "id": "beef_liver_l",
       "label": "Beef Liver L",
-      "x": 515,
-      "y": 380,
-      "fontSize": 23
+      "x": 516,
+      "y": 393,
+      "fontSize": 18
     },
     {
       "id": "ackee_saltfish_s",
       "label": "Ackee & Saltfish S",
-      "x": 384,
-      "y": 421,
-      "fontSize": 23
+      "x": 385,
+      "y": 430,
+      "fontSize": 18
     },
     {
       "id": "ackee_saltfish_m",
       "label": "Ackee & Saltfish M",
-      "x": 450,
-      "y": 421,
-      "fontSize": 23
+      "x": 449,
+      "y": 429,
+      "fontSize": 18
     },
     {
       "id": "ackee_saltfish_l",
       "label": "Ackee & Saltfish L",
-      "x": 518,
-      "y": 421,
-      "fontSize": 23
+      "x": 519,
+      "y": 427,
+      "fontSize": 18
     },
     {
       "id": "callaloo_saltfish_s",
       "label": "Callaloo & Saltfish S",
-      "x": 385,
-      "y": 466,
-      "fontSize": 23
+      "x": 388,
+      "y": 474,
+      "fontSize": 18
     },
     {
       "id": "callaloo_saltfish_m",
       "label": "Callaloo & Saltfish M",
       "x": 451,
-      "y": 465,
-      "fontSize": 23
+      "y": 473,
+      "fontSize": 18
     },
     {
       "id": "callaloo_saltfish_l",
       "label": "Callaloo & Saltfish L",
       "x": 519,
-      "y": 465,
-      "fontSize": 23
+      "y": 471,
+      "fontSize": 18
     },
     {
       "id": "butterbeans_saltfish_s",
       "label": "Butterbeans & Saltfish S",
-      "x": 385,
-      "y": 511,
-      "fontSize": 23
+      "x": 389,
+      "y": 516,
+      "fontSize": 18
     },
     {
       "id": "butterbeans_saltfish_m",
       "label": "Butterbeans & Saltfish M",
-      "x": 452,
-      "y": 511,
-      "fontSize": 23
+      "x": 451,
+      "y": 516,
+      "fontSize": 18
     },
     {
       "id": "butterbeans_saltfish_l",
       "label": "Butterbeans & Saltfish L",
-      "x": 521,
-      "y": 510,
-      "fontSize": 23
+      "x": 522,
+      "y": 517,
+      "fontSize": 18
     },
     {
       "id": "cookup_saltfish_s",
       "label": "Cook-up Saltfish S",
-      "x": 383,
-      "y": 555,
-      "fontSize": 23
+      "x": 388,
+      "y": 560,
+      "fontSize": 18
     },
     {
       "id": "cookup_saltfish_m",
       "label": "Cook-up Saltfish M",
-      "x": 451,
-      "y": 556,
-      "fontSize": 23
+      "x": 453,
+      "y": 559,
+      "fontSize": 18
     },
     {
       "id": "cookup_saltfish_l",
       "label": "Cook-up Saltfish L",
       "x": 521,
-      "y": 558,
-      "fontSize": 23
+      "y": 559,
+      "fontSize": 18
     },
     {
       "id": "kidney_s",
       "label": "Kidney S",
-      "x": 384,
-      "y": 595,
-      "fontSize": 23
+      "x": 389,
+      "y": 599,
+      "fontSize": 18
     },
     {
       "id": "kidney_m",
       "label": "Kidney M",
-      "x": 453,
-      "y": 595,
-      "fontSize": 23
+      "x": 454,
+      "y": 598,
+      "fontSize": 18
     },
     {
       "id": "kidney_l",
       "label": "Kidney L",
       "x": 521,
-      "y": 595,
-      "fontSize": 23
+      "y": 596,
+      "fontSize": 18
     },
     {
       "id": "stew_chicken_s",
       "label": "Stew Chicken S",
-      "x": 384,
-      "y": 635,
-      "fontSize": 23
+      "x": 389,
+      "y": 639,
+      "fontSize": 18
     },
     {
       "id": "stew_chicken_m",
       "label": "Stew Chicken M",
-      "x": 453,
-      "y": 635,
-      "fontSize": 23
+      "x": 456,
+      "y": 639,
+      "fontSize": 18
     },
     {
       "id": "stew_chicken_l",
       "label": "Stew Chicken L",
       "x": 521,
-      "y": 635,
-      "fontSize": 23
+      "y": 638,
+      "fontSize": 18
     },
     {
       "id": "porridge_oatmeal_s",
       "label": "Oatmeal S",
-      "x": 971,
-      "y": 363,
-      "fontSize": 24
+      "x": 934,
+      "y": 344,
+      "fontSize": 21
     },
     {
       "id": "porridge_oatmeal_l",
       "label": "Oatmeal L",
-      "x": 991,
-      "y": 291,
-      "fontSize": 24
+      "x": 994,
+      "y": 345,
+      "fontSize": 21
     },
     {
       "id": "porridge_peanut_s",
       "label": "Peanut S",
-      "x": 902,
-      "y": 453,
-      "fontSize": 16
+      "x": 934,
+      "y": 381,
+      "fontSize": 21
     },
     {
       "id": "porridge_peanut_l",
       "label": "Peanut L",
-      "x": 985,
-      "y": 453,
-      "fontSize": 16
+      "x": 994,
+      "y": 382,
+      "fontSize": 21
     },
     {
       "id": "porridge_plantain_s",
       "label": "Plantain S",
-      "x": 902,
-      "y": 522,
-      "fontSize": 16
+      "x": 935,
+      "y": 420,
+      "fontSize": 21
     },
     {
       "id": "porridge_plantain_l",
       "label": "Plantain L",
-      "x": 985,
-      "y": 522,
-      "fontSize": 16
+      "x": 993,
+      "y": 420,
+      "fontSize": 21
     },
     {
       "id": "porridge_carrot_s",
       "label": "Carrot S",
-      "x": 902,
-      "y": 592,
-      "fontSize": 16
+      "x": 935,
+      "y": 459,
+      "fontSize": 21
     },
     {
       "id": "porridge_carrot_l",
       "label": "Carrot L",
-      "x": 985,
-      "y": 592,
-      "fontSize": 16
+      "x": 992,
+      "y": 459,
+      "fontSize": 21
     },
     {
       "id": "porridge_cornmeal_s",
       "label": "Cornmeal S",
       "x": 934,
-      "y": 289,
-      "fontSize": 24
+      "y": 307,
+      "fontSize": 21
     },
     {
       "id": "porridge_cornmeal_l",
       "label": "Cornmeal L",
-      "x": 985,
-      "y": 661,
-      "fontSize": 16
+      "x": 993,
+      "y": 307,
+      "fontSize": 21
     },
     {
       "id": "patty_curry_chicken",
       "label": "Curry Chicken",
       "x": 453,
-      "y": 961,
-      "fontSize": 23
+      "y": 956,
+      "fontSize": 20
     },
     {
       "id": "patty_beef_spicy",
       "label": "Beef (Spicy)",
       "x": 454,
-      "y": 1006,
-      "fontSize": 23
+      "y": 1000,
+      "fontSize": 20
     },
     {
       "id": "patty_beef_mild",
       "label": "Beef Mild",
-      "x": 453,
-      "y": 1048,
-      "fontSize": 23
+      "x": 456,
+      "y": 1043,
+      "fontSize": 20
     },
     {
       "id": "patty_beefy_cheese",
       "label": "Beefy Cheese",
-      "x": 454,
-      "y": 1097,
-      "fontSize": 23
+      "x": 456,
+      "y": 1089,
+      "fontSize": 20
     },
     {
       "id": "patty_veggie",
       "label": "Veggie",
-      "x": 454,
-      "y": 1145,
-      "fontSize": 23
+      "x": 457,
+      "y": 1136,
+      "fontSize": 20
     },
     {
       "id": "patty_spinach",
       "label": "Spinach",
-      "x": 433,
-      "y": 1194,
-      "fontSize": 23
+      "x": 437,
+      "y": 1182,
+      "fontSize": 20
     },
     {
       "id": "patty_spinach_cheese",
       "label": "Spinach w/ cheese",
-      "x": 454,
-      "y": 1241,
-      "fontSize": 23
+      "x": 459,
+      "y": 1231,
+      "fontSize": 20
     },
     {
       "id": "patty_coco_bread",
       "label": "Coco Bread",
-      "x": 454,
-      "y": 1288,
-      "fontSize": 23
+      "x": 460,
+      "y": 1277,
+      "fontSize": 20
     },
     {
       "id": "soup_chicken_s",
       "label": "Soup Chicken S",
-      "x": 886,
-      "y": 1058,
-      "fontSize": 23
+      "x": 921,
+      "y": 978,
+      "fontSize": 21
     },
     {
       "id": "soup_chicken_l",
       "label": "Soup Chicken L",
-      "x": 971,
-      "y": 1058,
-      "fontSize": 16
+      "x": 981,
+      "y": 978,
+      "fontSize": 21
     },
     {
       "id": "soup_beef_s",
       "label": "Soup Beef S",
-      "x": 886,
-      "y": 1118,
-      "fontSize": 16
+      "x": 921,
+      "y": 1015,
+      "fontSize": 21
     },
     {
       "id": "soup_beef_l",
       "label": "Soup Beef L",
-      "x": 971,
-      "y": 1118,
-      "fontSize": 16
+      "x": 982,
+      "y": 1015,
+      "fontSize": 21
     },
     {
       "id": "soup_red_peas_s",
       "label": "Soup Red Peas S",
-      "x": 886,
-      "y": 1180,
-      "fontSize": 16
+      "x": 921,
+      "y": 1051,
+      "fontSize": 21
     },
     {
       "id": "soup_red_peas_l",
       "label": "Soup Red Peas L",
-      "x": 971,
-      "y": 1180,
-      "fontSize": 16
+      "x": 983,
+      "y": 1051,
+      "fontSize": 21
     },
     {
       "id": "soup_goat_s",
       "label": "Soup Goat S",
-      "x": 886,
-      "y": 1242,
-      "fontSize": 16
+      "x": 922,
+      "y": 1092,
+      "fontSize": 21
     },
     {
       "id": "soup_goat_l",
       "label": "Soup Goat L",
-      "x": 971,
-      "y": 1242,
-      "fontSize": 16
+      "x": 983,
+      "y": 1091,
+      "fontSize": 21
     },
     {
       "id": "soup_cowfoot_s",
       "label": "Soup Cowfoot S",
-      "x": 886,
-      "y": 1304,
-      "fontSize": 16
+      "x": 922,
+      "y": 1131,
+      "fontSize": 21
     },
     {
       "id": "soup_cowfoot_l",
       "label": "Soup Cowfoot L",
-      "x": 971,
-      "y": 1304,
-      "fontSize": 16
+      "x": 983,
+      "y": 1132,
+      "fontSize": 21
     },
     {
       "id": "bev_dg_soda",
       "label": "D & G Soda",
-      "x": 386,
-      "y": 1510,
+      "x": 383,
+      "y": 1492,
       "fontSize": 25
     },
     {
       "id": "bev_snapple",
       "label": "Snapple",
-      "x": 408,
-      "y": 1557,
+      "x": 409,
+      "y": 1537,
       "fontSize": 24
     },
     {
       "id": "bev_tropical_rhythm",
       "label": "Tropical Rhythm",
-      "x": 408,
-      "y": 1605,
+      "x": 411,
+      "y": 1585,
       "fontSize": 24
     },
     {
       "id": "bev_canned_soda",
       "label": "Canned Soda",
-      "x": 386,
-      "y": 1645,
+      "x": 388,
+      "y": 1626,
       "fontSize": 24
     },
     {
       "id": "bev_water",
       "label": "Water",
-      "x": 387,
-      "y": 1685,
+      "x": 389,
+      "y": 1669,
       "fontSize": 24
     }
   ]
