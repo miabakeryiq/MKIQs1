@@ -8,21 +8,21 @@
       "id": "beef_liver_s",
       "label": "Beef Liver S",
       "x": 387,
-      "y": 393,
+      "y": 395,
       "fontSize": 18
     },
     {
       "id": "beef_liver_m",
       "label": "Beef Liver M",
       "x": 449,
-      "y": 393,
+      "y": 396,
       "fontSize": 18
     },
     {
       "id": "beef_liver_l",
       "label": "Beef Liver L",
       "x": 516,
-      "y": 393,
+      "y": 396,
       "fontSize": 18
     },
     {
@@ -252,14 +252,14 @@
     {
       "id": "patty_veggie",
       "label": "Veggie",
-      "x": 457,
+      "x": 475,
       "y": 1136,
       "fontSize": 20
     },
     {
       "id": "patty_spinach",
       "label": "Spinach",
-      "x": 437,
+      "x": 458,
       "y": 1182,
       "fontSize": 20
     },
@@ -350,21 +350,21 @@
     {
       "id": "bev_dg_soda",
       "label": "D & G Soda",
-      "x": 383,
-      "y": 1492,
+      "x": 399,
+      "y": 1499,
       "fontSize": 25
     },
     {
       "id": "bev_snapple",
       "label": "Snapple",
-      "x": 409,
+      "x": 399,
       "y": 1537,
       "fontSize": 24
     },
     {
       "id": "bev_tropical_rhythm",
       "label": "Tropical Rhythm",
-      "x": 411,
+      "x": 399,
       "y": 1585,
       "fontSize": 24
     },
