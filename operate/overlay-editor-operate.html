@@ -5,95 +5,179 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Overlay Editor — Operate Screen</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@700;800&display=swap');
-    :root {
-      --bg: #0d0d0d; --panel: #141414; --border: rgba(255,255,255,.08);
-      --gold: #f5c518; --gold-dim: rgba(245,197,24,.15);
-      --text: #f0f0f0; --muted: rgba(240,240,240,.45);
-      --input-bg: #0a0a0a; --sidebar: 320px;
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #111;
+      color: #f2f2f2;
+      display: grid;
+      grid-template-columns: 360px 1fr;
+      min-height: 100vh;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { background: var(--bg); color: var(--text); font-family: 'DM Mono', monospace; display: flex; min-height: 100vh; }
-    aside { width: var(--sidebar); min-width: var(--sidebar); position: sticky; top: 0; height: 100vh; display: flex; flex-direction: column; border-right: 1px solid var(--border); background: var(--panel); overflow: hidden; }
-    .sidebar-head { padding: 20px 20px 14px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
-    .sidebar-head h1 { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 800; letter-spacing: -.02em; color: var(--gold); margin-bottom: 4px; }
-    .sidebar-head p { font-size: 11px; color: var(--muted); line-height: 1.5; }
-    .sidebar-body { flex: 1; overflow-y: auto; padding: 16px 20px; }
-    .sidebar-body::-webkit-scrollbar { width: 4px; }
-    .sidebar-body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
-    .status-bar { font-size: 11px; padding: 8px 12px; background: var(--gold-dim); border: 1px solid rgba(245,197,24,.2); border-radius: 8px; color: var(--gold); margin-bottom: 16px; }
-    .section-label { font-size: 10px; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); margin-bottom: 8px; margin-top: 16px; }
-    .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
-    .field { display: flex; flex-direction: column; gap: 4px; }
-    .field label { font-size: 10px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
-    .field input { background: var(--input-bg); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-family: 'DM Mono', monospace; font-size: 13px; padding: 8px 10px; width: 100%; transition: border-color .15s; }
-    .field input:focus { outline: none; border-color: var(--gold); }
-    .field input[readonly] { color: var(--gold); background: var(--gold-dim); border-color: rgba(245,197,24,.2); }
-    .hint { font-size: 11px; color: var(--muted); line-height: 1.6; padding: 10px 12px; background: rgba(255,255,255,.03); border-radius: 8px; margin-bottom: 4px; }
-    .toolbar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
-    button { font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 500; border: 0; border-radius: 8px; padding: 9px 14px; cursor: pointer; transition: opacity .15s, transform .1s; }
-    button:active { transform: scale(.97); }
-    button.primary { background: var(--gold); color: #111; }
-    button.secondary { background: rgba(255,255,255,.07); color: var(--text); border: 1px solid var(--border); }
-    button:hover { opacity: .85; }
-    .item-list { display: flex; flex-direction: column; gap: 4px; max-height: 280px; overflow-y: auto; padding-right: 2px; }
-    .item-list::-webkit-scrollbar { width: 3px; }
-    .item-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-    .list-item { padding: 7px 10px; border-radius: 7px; font-size: 12px; cursor: pointer; border: 1px solid transparent; transition: background .1s, border-color .1s; color: var(--muted); }
-    .list-item:hover { background: rgba(255,255,255,.04); color: var(--text); }
-    .list-item.active { background: var(--gold-dim); border-color: rgba(245,197,24,.3); color: var(--gold); }
-    textarea { width: 100%; min-height: 160px; margin-top: 12px; border-radius: 10px; border: 1px solid var(--border); background: var(--input-bg); color: rgba(240,240,240,.7); padding: 12px; font-family: 'DM Mono', monospace; font-size: 11px; resize: vertical; }
-    main { flex: 1; padding: 24px; background: var(--bg); overflow: visible; }
-    .stage-wrapper { width: 100%; max-width: 600px; aspect-ratio: 1080 / 1780; position: relative; margin: 0 auto; }
-    .stage { position: absolute; inset: 0; width: 100%; height: 100%; overflow: hidden; border: 1px solid var(--border); box-shadow: 0 24px 80px rgba(0,0,0,.6); }
-    .frame-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: fill; display: block; z-index: 1; user-select: none; pointer-events: none; }
-    #overlay { position: absolute; inset: 0; z-index: 2; }
-    .overlay-item { position: absolute; transform: translate(-50%, -50%); color: #111; font-weight: 900; white-space: nowrap; cursor: grab; user-select: none; line-height: 1; font-variant-numeric: tabular-nums; font-family: Arial, Helvetica, sans-serif; text-shadow: 0 0 1px rgba(255,255,255,.6), 0 1px 0 rgba(255,255,255,.35); }
-    .overlay-item.active { outline: 1.5px dashed var(--gold); outline-offset: 3px; z-index: 10; }
-    .overlay-item:active { cursor: grabbing; }
-    .overlay-item.selected { outline: 1.5px solid rgba(245,197,24,.6); outline-offset: 3px; }
-    .overlay-item.active.selected { outline: 2px solid var(--gold); outline-offset: 3px; }
+    aside {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      padding: 16px;
+      border-right: 1px solid rgba(255,255,255,.12);
+      overflow: auto;
+      background: #171717;
+    }
+    h1 { margin: 0 0 8px; font-size: 24px; }
+    .hint, .status {
+      padding: 12px;
+      border-radius: 12px;
+      background: rgba(255,255,255,.06);
+      margin-bottom: 14px;
+      font-size: 14px;
+      line-height: 1.35;
+    }
+    .toolbar { display:flex; gap:8px; flex-wrap:wrap; margin: 14px 0; }
+    button {
+      border: 0;
+      background: #f5c518;
+      color: #111;
+      padding: 10px 12px;
+      border-radius: 10px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    button.secondary {
+      background:#2a2a2a; color:#fff; border:1px solid rgba(255,255,255,.15);
+    }
+    .field { margin: 10px 0; }
+    .field label {
+      display:block; margin-bottom:4px; font-size:12px; opacity:.75;
+      text-transform: uppercase; letter-spacing:.04em;
+    }
+    .field input {
+      width:100%; padding:10px; border-radius:10px; border:1px solid rgba(255,255,255,.12);
+      background:#0f0f0f; color:#fff;
+    }
+    .list {
+      margin-top: 12px;
+      display: grid;
+      gap: 6px;
+      max-height: 40vh;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+    .item {
+      padding:8px 10px; border-radius:10px; background:rgba(255,255,255,.04);
+      cursor:pointer; border:1px solid transparent;
+    }
+    .item.active { border-color:#f5c518; background:rgba(245,197,24,.12); }
+    .item.selected { border-color:rgba(245,197,24,.5); background:rgba(245,197,24,.07); }
+    .micro { font-size:12px; opacity:.75; margin-top: 8px; }
+    main {
+      padding:16px;
+      display:flex;
+      justify-content:center;
+      align-items:flex-start;
+      min-height:100vh;
+    }
+    .stage {
+      position: relative;
+      width: min(760px, calc(100vw - 420px));
+      aspect-ratio: 1080 / 1780;
+      background: #000;
+      border: 1px solid rgba(255,255,255,.12);
+      box-shadow: 0 20px 60px rgba(0,0,0,.45);
+      overflow: hidden;
+      margin-top: 6px;
+    }
+    .frame-img {
+      position: absolute;
+      inset: 0; width: 100%; height: 100%;
+      object-fit: fill;
+      display: block;
+      z-index: 1;
+      user-select: none;
+      pointer-events: none;
+    }
+    #overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 4;
+    }
+    .overlay-item {
+      position: absolute;
+      transform: translate(-50%, -50%);
+      min-width: 8px;
+      text-align: center;
+      background: transparent;
+      color: #111;
+      border: 0;
+      cursor: grab;
+      user-select: none;
+      font-weight: 800;
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+    .overlay-item.active {
+      outline: 1.5px dashed rgba(245,197,24,.95);
+      z-index: 6;
+    }
+    .overlay-item.selected {
+      outline: 1.5px solid rgba(245,197,24,.6);
+      z-index: 5;
+    }
+    .overlay-item.active.selected {
+      outline: 2px solid #f5c518;
+      z-index: 6;
+    }
+    textarea {
+      width:100%; min-height:220px; margin-top:14px; border-radius:12px;
+      border:1px solid rgba(255,255,255,.15); background:#0f0f0f; color:#e8e8e8;
+      padding:12px; font-family: ui-monospace, monospace; font-size:12px;
+    }
   </style>
 </head>
 <body>
   <aside>
-    <div class="sidebar-head">
-      <h1>Operate Editor</h1>
-      <p>Screen 2 — Main Entrees, Chicken Only, Sides.<br>Canvas matches player orientation.</p>
+    <h1>Operate Editor</h1>
+    <div class="hint">
+      <strong>Click</strong> to select one item.<br>
+      <strong>Shift+Click</strong> to add/remove from selection.<br>
+      <strong>Drag</strong> any selected item to move the whole group.<br>
+      Arrow keys nudge 1px · Shift+Arrow = 10px.
     </div>
-    <div class="sidebar-body">
-      <div class="status-bar" id="saveStatus">Loading…</div>
-      <div class="toolbar">
-        <button class="primary" id="copyBtn">Copy JSON</button>
-        <button class="secondary" id="downloadBtn">Download</button>
-        <button class="secondary" id="resetBtn">Reset</button>
-      </div>
-      <div class="section-label">Selected item</div>
-      <div class="field" style="margin-bottom:8px">
-        <label>ID</label>
-        <input id="selectedId" readonly />
-      </div>
-      <div class="field-row">
-        <div class="field"><label>X</label><input id="posX" type="number" step="1" /></div>
-        <div class="field"><label>Y</label><input id="posY" type="number" step="1" /></div>
-      </div>
-      <div class="field" style="margin-bottom:12px">
-        <label>Font size (px)</label>
-        <input id="fontSize" type="number" step="1" min="8" max="120" />
-      </div>
-      <div class="hint">Click to select · Shift/Cmd+Click to multi-select · Drag any selected item to move the group · Arrow keys nudge 1px · Shift+Arrow = 10px · Font size applies to all selected</div>
-      <div class="section-label" style="margin-top:14px">All items</div>
-      <div class="item-list" id="list"></div>
-      <textarea id="exportBox" spellcheck="false"></textarea>
+
+    <div class="toolbar">
+      <button id="copyBtn">Copy JSON</button>
+      <button class="secondary" id="downloadBtn">Download JSON</button>
+      <button class="secondary" id="resetBtn">Reset</button>
     </div>
+
+    <div class="status" id="saveStatus">Loading…</div>
+
+    <div class="field">
+      <label>Selected</label>
+      <input id="selectedId" readonly />
+    </div>
+    <div class="field">
+      <label>X</label>
+      <input id="posX" type="number" step="1" />
+    </div>
+    <div class="field">
+      <label>Y</label>
+      <input id="posY" type="number" step="1" />
+    </div>
+    <div class="field">
+      <label>Font size (px) — applies to all selected</label>
+      <input id="fontSize" type="number" step="1" min="8" max="120" />
+    </div>
+
+    <div class="list" id="list"></div>
+    <textarea id="exportBox" spellcheck="false"></textarea>
   </aside>
 
   <main>
-    <div class="stage-wrapper" id="stageWrapper">
-      <div class="stage" id="stage">
-        <img src="./screen2.png" alt="" class="frame-img" />
-        <div id="overlay"></div>
-      </div>
+    <div class="stage" id="stage">
+      <img src="./screen2.png" alt="" class="frame-img" />
+      <div id="overlay"></div>
     </div>
   </main>
 
@@ -102,10 +186,22 @@
 
     const PRICE_VALUES = {"jerk_wings_s":0,"jerk_wings_m":0,"jerk_wings_l":0,"stew_chicken_s":0,"stew_chicken_m":0,"stew_chicken_l":0,"fried_chicken_s":0,"fried_chicken_m":0,"fried_chicken_l":0,"escovitch_chicken_s":0,"escovitch_chicken_m":0,"escovitch_chicken_l":0,"jerk_chicken_s":0,"jerk_chicken_m":0,"jerk_chicken_l":0,"curry_chicken_s":0,"curry_chicken_m":0,"curry_chicken_l":0,"stew_peas_s":0,"stew_peas_m":0,"stew_peas_l":0,"escovitch_whiting_s":0,"escovitch_whiting_m":0,"escovitch_whiting_l":0,"curry_goat_s":0,"curry_goat_m":0,"curry_goat_l":0,"oxtail_s":0,"oxtail_m":0,"oxtail_l":0,"salmon_s":0,"salmon_m":0,"salmon_l":0,"glazed_salmon_s":0,"glazed_salmon_m":0,"glazed_salmon_l":0,"snapper_s":0,"snapper_m":0,"snapper_l":0,"chicken_jerk_quarter":0,"chicken_jerk_half":0,"chicken_fry_quarter":0,"chicken_fry_half":0,"chicken_wings_5pc":0,"side_cabbage_s":0,"side_cabbage_m":0,"side_cabbage_l":0,"side_white_rice_s":0,"side_white_rice_m":0,"side_white_rice_l":0,"side_mac_cheese_s":0,"side_mac_cheese_m":0,"side_mac_cheese_l":0,"side_festival_s":0,"side_festival_m":0,"side_festival_l":0,"side_fried_plantain_s":0,"side_fried_plantain_m":0,"side_fried_plantain_l":0,"side_fried_dumplings_s":0,"side_fried_dumplings_m":0,"side_fried_dumplings_l":0,"side_pasta_s":0,"side_pasta_m":0,"side_pasta_l":0};
 
-    const STORAGE_KEY = "mckenzie_overlay_editor_operate_v2";
+    const STORAGE_KEY = "mckenzie_overlay_editor_operate_v3";
     const CW = 1080, CH = 1780;
 
+    const stage    = document.getElementById("stage");
+    const overlay  = document.getElementById("overlay");
+    const list     = document.getElementById("list");
+    const exportBox = document.getElementById("exportBox");
+    const selectedIdEl = document.getElementById("selectedId");
+    const posXEl   = document.getElementById("posX");
+    const posYEl   = document.getElementById("posY");
+    const fontSizeEl = document.getElementById("fontSize");
+    const saveStatus = document.getElementById("saveStatus");
+
     function clone(o) { return JSON.parse(JSON.stringify(o)); }
+    function setStatus(t) { saveStatus.textContent = t; }
+
     function loadMap() {
       try {
         const raw = localStorage.getItem(STORAGE_KEY);
@@ -115,281 +211,258 @@
       } catch(e) { return clone(DEFAULT_MAP); }
     }
 
-    // ── STATE ─────────────────────────────────────────────────────────────────
     const state = {
       map: loadMap(),
       activeId: null,
-      selectedIds: new Set()  // multi-select set
+      selected: new Set()
     };
 
     function getItem(id) { return state.map.items.find(i => i.id === id); }
 
-    const stageWrapper = document.getElementById('stageWrapper');
-    const stage = document.getElementById('stage');
-
-    function layoutStage() {
-      stage.style.width  = '100%';
-      stage.style.height = '100%';
-      stage.style.transform = '';
-      renderOverlay();
-    }
-    window.addEventListener('resize', layoutStage);
-
     function formatPrice(v) {
       const n = Number(v);
-      if (Number.isNaN(n)) return String(v ?? '');
+      if (Number.isNaN(n)) return String(v ?? "");
       return Number.isInteger(n) ? String(n) : n.toFixed(2);
     }
 
     // ── RENDER ────────────────────────────────────────────────────────────────
-    function renderOverlay() {
-      const overlay = document.getElementById('overlay');
-      overlay.innerHTML = '';
+    function renderStage() {
+      overlay.innerHTML = "";
       for (const item of state.map.items) {
         const isActive   = item.id === state.activeId;
-        const isSelected = state.selectedIds.has(item.id);
-        const el = document.createElement('div');
-        el.className = 'overlay-item' + (isActive ? ' active' : '') + (isSelected ? ' selected' : '');
+        const isSelected = state.selected.has(item.id);
+        const el = document.createElement("div");
+        let cls = "overlay-item";
+        if (isSelected) cls += " selected";
+        if (isActive)   cls += " active";
+        el.className = cls;
         el.dataset.id = item.id;
-        el.style.left = (item.x / CW * 100) + '%';
-        el.style.top  = (item.y / CH * 100) + '%';
-        el.style.fontSize = (item.fontSize || 16) + 'px';
-        el.textContent = formatPrice(PRICE_VALUES[item.id] ?? '');
-        attachDrag(el, item.id);
-        el.addEventListener('click', e => {
+        el.style.left = (item.x / CW * 100) + "%";
+        el.style.top  = (item.y / CH * 100) + "%";
+        el.style.fontSize = (item.fontSize || 16) + "px";
+        el.textContent = formatPrice(PRICE_VALUES[item.id] ?? "");
+        el.addEventListener("click", e => {
           e.stopPropagation();
           if (e.shiftKey || e.metaKey || e.ctrlKey) {
-            // Toggle into multi-select
-            if (state.selectedIds.has(item.id)) {
-              state.selectedIds.delete(item.id);
-            } else {
-              state.selectedIds.add(item.id);
-            }
-            state.activeId = item.id;
+            if (state.selected.has(item.id)) state.selected.delete(item.id);
+            else state.selected.add(item.id);
           } else {
-            // Single select — clear others
-            state.selectedIds.clear();
-            state.selectedIds.add(item.id);
-            state.activeId = item.id;
+            state.selected.clear();
+            state.selected.add(item.id);
           }
-          renderOverlay();
+          state.activeId = item.id;
+          renderStage();
         });
+        attachDrag(el, item.id);
         overlay.appendChild(el);
       }
-      renderList(); renderExport(); syncInputs();
-    }
-
-    // ── DRAG ──────────────────────────────────────────────────────────────────
-    // Update DOM positions without full re-render to preserve pointer capture
-    function updatePositionsDOM() {
-      const overlay = document.getElementById('overlay');
-      for (const el of overlay.querySelectorAll('.overlay-item')) {
-        const item = getItem(el.dataset.id);
-        if (!item) continue;
-        el.style.left = (item.x / CW * 100) + '%';
-        el.style.top  = (item.y / CH * 100) + '%';
-      }
+      renderList();
+      renderExport();
       syncInputs();
+      queueSave();
     }
 
-    function toCanvas(clientX, clientY) {
-      const rect = stage.getBoundingClientRect();
-      return {
-        x: Math.max(0, Math.min(CW, Math.round((clientX - rect.left) / rect.width  * CW))),
-        y: Math.max(0, Math.min(CH, Math.round((clientY - rect.top)  / rect.height * CH)))
-      };
-    }
-
+    // ── DRAG — delta-based so group moves together ─────────────────────────
     function attachDrag(el, id) {
       let dragging = false;
-      let lastCanvasPos = null;
+      let startX, startY;           // canvas coords at pointerdown
+      let origins = {};             // snapshot of all selected positions
 
-      el.addEventListener('pointerdown', e => {
+      el.addEventListener("pointerdown", e => {
         e.stopPropagation();
-        // If item not in selection, make it the only one
-        if (!state.selectedIds.has(id)) {
-          state.selectedIds.clear();
-          state.selectedIds.add(id);
+        // If clicked item not in selection, replace selection
+        if (!state.selected.has(id)) {
+          state.selected.clear();
+          state.selected.add(id);
           state.activeId = id;
-          renderOverlay(); // full re-render only on selection change
         } else {
           state.activeId = id;
         }
         dragging = true;
         el.setPointerCapture(e.pointerId);
-        lastCanvasPos = toCanvas(e.clientX, e.clientY);
+
+        // Snapshot canvas position of pointer and all selected items
+        const rect = overlay.getBoundingClientRect();
+        startX = ((e.clientX - rect.left) / rect.width)  * CW;
+        startY = ((e.clientY - rect.top)  / rect.height) * CH;
+        origins = {};
+        for (const sid of state.selected) {
+          const item = getItem(sid);
+          if (item) origins[sid] = { x: item.x, y: item.y };
+        }
+        renderStage();
       });
 
-      el.addEventListener('pointermove', e => {
-        if (!dragging || !lastCanvasPos) return;
-        const pos = toCanvas(e.clientX, e.clientY);
-        const dx = pos.x - lastCanvasPos.x;
-        const dy = pos.y - lastCanvasPos.y;
-        if (dx === 0 && dy === 0) return;
+      el.addEventListener("pointermove", e => {
+        if (!dragging) return;
+        const rect = overlay.getBoundingClientRect();
+        const cx = ((e.clientX - rect.left) / rect.width)  * CW;
+        const cy = ((e.clientY - rect.top)  / rect.height) * CH;
+        const dx = cx - startX;
+        const dy = cy - startY;
 
-        for (const sid of state.selectedIds) {
+        for (const sid of state.selected) {
           const item = getItem(sid);
-          if (!item) continue;
-          item.x = Math.max(0, Math.min(CW, item.x + dx));
-          item.y = Math.max(0, Math.min(CH, item.y + dy));
+          if (!item || !origins[sid]) continue;
+          item.x = Math.max(0, Math.min(CW, Math.round(origins[sid].x + dx)));
+          item.y = Math.max(0, Math.min(CH, Math.round(origins[sid].y + dy)));
         }
 
-        lastCanvasPos = pos;
-        updatePositionsDOM(); // lightweight update — no DOM rebuild
+        // Lightweight DOM update — no full rebuild during drag
+        for (const el2 of overlay.querySelectorAll(".overlay-item")) {
+          const item = getItem(el2.dataset.id);
+          if (item) {
+            el2.style.left = (item.x / CW * 100) + "%";
+            el2.style.top  = (item.y / CH * 100) + "%";
+          }
+        }
+        syncInputs();
         queueSave();
       });
 
-      el.addEventListener('pointerup', () => {
-        if (dragging) { dragging = false; lastCanvasPos = null; renderOverlay(); }
-      });
-      el.addEventListener('pointercancel', () => {
-        dragging = false; lastCanvasPos = null;
-      });
+      el.addEventListener("pointerup", () => { dragging = false; renderStage(); });
+      el.addEventListener("pointercancel", () => { dragging = false; });
     }
 
     // ── KEYBOARD ──────────────────────────────────────────────────────────────
-    document.addEventListener('keydown', e => {
-      if (!state.selectedIds.size) return;
+    document.addEventListener("keydown", e => {
+      if (!state.selected.size) return;
       const step = e.shiftKey ? 10 : 1;
       let dx = 0, dy = 0;
-      if      (e.key === 'ArrowLeft')  dx = -step;
-      else if (e.key === 'ArrowRight') dx =  step;
-      else if (e.key === 'ArrowUp')    dy = -step;
-      else if (e.key === 'ArrowDown')  dy =  step;
+      if      (e.key === "ArrowLeft")  dx = -step;
+      else if (e.key === "ArrowRight") dx =  step;
+      else if (e.key === "ArrowUp")    dy = -step;
+      else if (e.key === "ArrowDown")  dy =  step;
       else return;
-
-      for (const sid of state.selectedIds) {
+      for (const sid of state.selected) {
         const item = getItem(sid);
         if (!item) continue;
         item.x = Math.max(0, Math.min(CW, item.x + dx));
         item.y = Math.max(0, Math.min(CH, item.y + dy));
       }
-      renderOverlay(); queueSave(); e.preventDefault();
+      renderStage();
+      e.preventDefault();
     });
 
     // ── INPUTS ────────────────────────────────────────────────────────────────
-    const selectedIdEl = document.getElementById('selectedId');
-    const posXEl       = document.getElementById('posX');
-    const posYEl       = document.getElementById('posY');
-    const fontSizeEl   = document.getElementById('fontSize');
-    const saveStatusEl = document.getElementById('saveStatus');
-    const exportBox    = document.getElementById('exportBox');
-
     function syncInputs() {
       const item = getItem(state.activeId);
-      const count = state.selectedIds.size;
-      selectedIdEl.value = count > 1 ? `${count} selected` : (item?.id || '');
-      posXEl.value       = count > 1 ? '' : (item?.x  ?? '');
-      posYEl.value       = count > 1 ? '' : (item?.y  ?? '');
-      fontSizeEl.value   = count > 1 ? '' : (item?.fontSize ?? 16);
+      const count = state.selected.size;
+      selectedIdEl.value = count > 1 ? `${count} items selected` : (item?.id || "");
+      posXEl.value       = count > 1 ? "" : (item?.x ?? "");
+      posYEl.value       = count > 1 ? "" : (item?.y ?? "");
+      fontSizeEl.value   = item?.fontSize ?? 16;
     }
 
-    posXEl.addEventListener('input', () => {
+    posXEl.addEventListener("input", () => {
       const item = getItem(state.activeId); if (!item) return;
       const n = Number(posXEl.value); if (isNaN(n)) return;
       item.x = Math.max(0, Math.min(CW, Math.round(n)));
-      renderOverlay(); queueSave();
+      renderStage();
     });
-    posYEl.addEventListener('input', () => {
+    posYEl.addEventListener("input", () => {
       const item = getItem(state.activeId); if (!item) return;
       const n = Number(posYEl.value); if (isNaN(n)) return;
       item.y = Math.max(0, Math.min(CH, Math.round(n)));
-      renderOverlay(); queueSave();
+      renderStage();
     });
-    fontSizeEl.addEventListener('input', () => {
-      // Apply font size to all selected
+    fontSizeEl.addEventListener("input", () => {
       const n = Number(fontSizeEl.value); if (isNaN(n)) return;
       const size = Math.max(8, Math.min(120, Math.round(n)));
-      for (const sid of state.selectedIds) {
+      for (const sid of state.selected) {
         const item = getItem(sid);
         if (item) item.fontSize = size;
       }
-      renderOverlay(); queueSave();
+      renderStage();
     });
 
     // ── LIST ──────────────────────────────────────────────────────────────────
     function renderList() {
-      const list = document.getElementById('list');
-      list.innerHTML = '';
+      list.innerHTML = "";
       for (const item of state.map.items) {
-        const isSelected = state.selectedIds.has(item.id);
-        const el = document.createElement('div');
-        el.className = 'list-item' + (isSelected ? ' active' : '');
+        const el = document.createElement("div");
+        const isActive   = item.id === state.activeId;
+        const isSelected = state.selected.has(item.id);
+        let cls = "item";
+        if (isSelected) cls += " selected";
+        if (isActive)   cls += " active";
+        el.className = cls;
         el.textContent = item.label;
         el.onclick = (e) => {
           if (e.shiftKey || e.metaKey || e.ctrlKey) {
-            if (state.selectedIds.has(item.id)) state.selectedIds.delete(item.id);
-            else state.selectedIds.add(item.id);
+            if (state.selected.has(item.id)) state.selected.delete(item.id);
+            else state.selected.add(item.id);
           } else {
-            state.selectedIds.clear();
-            state.selectedIds.add(item.id);
+            state.selected.clear();
+            state.selected.add(item.id);
           }
           state.activeId = item.id;
-          renderOverlay();
+          renderStage();
         };
         list.appendChild(el);
       }
     }
 
-    // ── EXPORT ────────────────────────────────────────────────────────────────
+    // ── EXPORT / SAVE ─────────────────────────────────────────────────────────
     function renderExport() { exportBox.value = JSON.stringify(state.map, null, 2); }
 
-    exportBox.addEventListener('change', () => {
-      try {
-        const p = JSON.parse(exportBox.value);
-        if (!p || !Array.isArray(p.items)) throw new Error('bad');
-        state.map = p;
-        state.selectedIds.clear();
-        state.activeId = state.map.items[0]?.id ?? null;
-        state.selectedIds.add(state.activeId);
-        renderOverlay(); setStatus('Loaded from JSON box.');
-      } catch(e) { setStatus('Invalid JSON.'); }
-    });
-
-    // ── SAVE ──────────────────────────────────────────────────────────────────
-    function setStatus(t) { saveStatusEl.textContent = t; }
     let saveTimer = null;
     function queueSave() {
       clearTimeout(saveTimer);
       saveTimer = setTimeout(() => {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(state.map));
-        setStatus('Autosaved.');
+        setStatus("Autosaved.");
       }, 150);
     }
 
-    // ── TOOLBAR ───────────────────────────────────────────────────────────────
-    document.getElementById('copyBtn').onclick = async () => {
-      await navigator.clipboard.writeText(JSON.stringify(state.map, null, 2));
-      setStatus('JSON copied to clipboard.');
-    };
-    document.getElementById('downloadBtn').onclick = () => {
-      const blob = new Blob([JSON.stringify(state.map, null, 2)], { type: 'application/json' });
-      const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
-      a.download = 'overlay-map-operate.json'; a.click(); URL.revokeObjectURL(a.href);
-      setStatus('Downloaded overlay-map-operate.json');
-    };
-    document.getElementById('resetBtn').onclick = () => {
-      localStorage.removeItem(STORAGE_KEY);
-      state.map = clone(DEFAULT_MAP);
-      state.selectedIds.clear();
-      state.activeId = state.map.items[0]?.id ?? null;
-      state.selectedIds.add(state.activeId);
-      layoutStage(); setStatus('Reset to default map.');
-    };
-
-    // Click on empty canvas = deselect all
-    document.getElementById('overlay').addEventListener('click', () => {
-      state.activeId = null;
-      state.selectedIds.clear();
-      renderOverlay();
+    exportBox.addEventListener("change", () => {
+      try {
+        const p = JSON.parse(exportBox.value);
+        if (!p || !Array.isArray(p.items)) throw new Error("bad");
+        state.map = p;
+        state.selected.clear();
+        state.activeId = state.map.items[0]?.id ?? null;
+        state.selected.add(state.activeId);
+        renderStage(); setStatus("Loaded from JSON box.");
+      } catch(e) { setStatus("Invalid JSON."); }
     });
 
+    document.getElementById("copyBtn").onclick = async () => {
+      renderExport();
+      await navigator.clipboard.writeText(exportBox.value);
+      setStatus("JSON copied.");
+    };
+    document.getElementById("downloadBtn").onclick = () => {
+      renderExport();
+      const blob = new Blob([exportBox.value], { type: "application/json" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "overlay-map-operate.json";
+      a.click(); URL.revokeObjectURL(a.href);
+      setStatus("Downloaded overlay-map-operate.json");
+    };
+    document.getElementById("resetBtn").onclick = () => {
+      localStorage.removeItem(STORAGE_KEY);
+      state.map = clone(DEFAULT_MAP);
+      state.selected.clear();
+      state.activeId = state.map.items[0]?.id ?? null;
+      state.selected.add(state.activeId);
+      renderStage(); setStatus("Reset to default map.");
+    };
+
+    overlay.addEventListener("click", () => {
+      state.activeId = null;
+      state.selected.clear();
+      renderStage();
+    });
+
+    window.addEventListener("resize", renderStage);
+
     // ── INIT ──────────────────────────────────────────────────────────────────
-    setStatus(localStorage.getItem(STORAGE_KEY) ? 'Loaded autosaved map.' : 'Using default map.');
+    setStatus(localStorage.getItem(STORAGE_KEY) ? "Loaded autosaved map." : "Using default map.");
     state.activeId = state.map.items[0]?.id ?? null;
-    state.selectedIds.add(state.activeId);
-    window.addEventListener('load', layoutStage);
-    if (document.readyState === 'complete') layoutStage();
+    state.selected.add(state.activeId);
+    renderStage();
   </script>
 </body>
 </html>
