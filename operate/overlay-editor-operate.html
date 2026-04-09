@@ -270,11 +270,18 @@
 
       el.addEventListener("pointerdown", e => {
         e.stopPropagation();
-        // If clicked item not in selection, replace selection
+        // Update selection state
         if (!state.selected.has(id)) {
           state.selected.clear();
           state.selected.add(id);
           state.activeId = id;
+          // Update CSS classes without rebuilding DOM
+          for (const el2 of overlay.querySelectorAll(".overlay-item")) {
+            el2.classList.remove("selected", "active");
+            if (state.selected.has(el2.dataset.id)) el2.classList.add("selected");
+            if (el2.dataset.id === state.activeId) el2.classList.add("active");
+          }
+          renderList(); syncInputs();
         } else {
           state.activeId = id;
         }
@@ -290,7 +297,7 @@
           const item = getItem(sid);
           if (item) origins[sid] = { x: item.x, y: item.y };
         }
-        renderStage();
+        // NO renderStage() here — would destroy pointer capture
       });
 
       el.addEventListener("pointermove", e => {
@@ -320,7 +327,11 @@
         queueSave();
       });
 
-      el.addEventListener("pointerup", () => { dragging = false; renderStage(); });
+      el.addEventListener("pointerup", () => {
+        if (dragging) justDragged = true;
+        dragging = false;
+        renderStage();
+      });
       el.addEventListener("pointercancel", () => { dragging = false; });
     }
 
@@ -450,7 +461,10 @@
       renderStage(); setStatus("Reset to default map.");
     };
 
+    // Prevent overlay click from clearing selection right after a drag
+    let justDragged = false;
     overlay.addEventListener("click", () => {
+      if (justDragged) { justDragged = false; return; }
       state.activeId = null;
       state.selected.clear();
       renderStage();
