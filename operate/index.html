@@ -64,7 +64,7 @@
 <body>
   <div class="wrapper">
     <video id="player" loop playsinline webkit-playsinline muted preload="auto">
-      <source src="screen2.mov" type="video/mp4">
+      <source src="PREVIEW-operate.mov" type="video/mp4">
     </video>
     <div id="overlay"></div>
   </div>
@@ -128,20 +128,45 @@
       }
     }
 
-    async function renderOverlay() {
-      const [OVERLAY_MAP, prices] = await Promise.all([loadOverlayMap(), loadPrices()]);
+    // Cache the map so we only fetch it once
+    let OVERLAY_MAP_CACHE = null;
+
+    async function getMap() {
+      if (OVERLAY_MAP_CACHE) return OVERLAY_MAP_CACHE;
+      OVERLAY_MAP_CACHE = await loadOverlayMap();
+      return OVERLAY_MAP_CACHE;
+    }
+
+    // Build overlay DOM once from the map
+    async function buildOverlay() {
+      const map = await getMap();
       const overlay = document.getElementById("overlay");
       overlay.innerHTML = "";
-      for (const item of OVERLAY_MAP.items) {
+      for (const item of map.items) {
         const el = document.createElement("div");
         el.className = "price-tag";
         el.dataset.id = item.id;
-        el.style.left = `${(item.x / OVERLAY_MAP.canvas.width) * 100}%`;
-        el.style.top  = `${(item.y / OVERLAY_MAP.canvas.height) * 100}%`;
+        el.style.left = `${(item.x / map.canvas.width) * 100}%`;
+        el.style.top  = `${(item.y / map.canvas.height) * 100}%`;
         el.style.fontSize = `${item.fontSize || 16}px`;
-        el.textContent = formatPrice(prices[item.id] ?? "");
+        el.textContent = "";
         overlay.appendChild(el);
       }
+    }
+
+    // Only update price text — no DOM rebuild, no flicker
+    async function updatePrices() {
+      const prices = await loadPrices();
+      const overlay = document.getElementById("overlay");
+      for (const el of overlay.querySelectorAll(".price-tag")) {
+        el.textContent = formatPrice(prices[el.dataset.id] ?? "");
+      }
+    }
+
+    async function init() {
+      await buildOverlay();
+      await updatePrices();
+      setInterval(updatePrices, POLL_MS);
     }
 
     const v = document.getElementById("player");
@@ -155,8 +180,7 @@
     v.addEventListener("canplaythrough", tryPlay);
     setTimeout(tryPlay, 2000);
 
-    renderOverlay();
-    setInterval(renderOverlay, POLL_MS);
+    init();
   </script>
 </body>
 </html>
