@@ -13,8 +13,8 @@
       --input-bg: #0a0a0a; --sidebar: 320px;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { background: var(--bg); color: var(--text); font-family: 'DM Mono', monospace; display: flex; height: 100vh; overflow: hidden; }
-    aside { width: var(--sidebar); min-width: var(--sidebar); height: 100vh; display: flex; flex-direction: column; border-right: 1px solid var(--border); background: var(--panel); overflow: hidden; }
+    body { background: var(--bg); color: var(--text); font-family: 'DM Mono', monospace; display: flex; min-height: 100vh; }
+    aside { width: var(--sidebar); min-width: var(--sidebar); position: sticky; top: 0; height: 100vh; display: flex; flex-direction: column; border-right: 1px solid var(--border); background: var(--panel); overflow: hidden; }
     .sidebar-head { padding: 20px 20px 14px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
     .sidebar-head h1 { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 800; letter-spacing: -.02em; color: var(--gold); margin-bottom: 4px; }
     .sidebar-head p { font-size: 11px; color: var(--muted); line-height: 1.5; }
@@ -43,14 +43,16 @@
     .list-item:hover { background: rgba(255,255,255,.04); color: var(--text); }
     .list-item.active { background: var(--gold-dim); border-color: rgba(245,197,24,.3); color: var(--gold); }
     textarea { width: 100%; min-height: 160px; margin-top: 12px; border-radius: 10px; border: 1px solid var(--border); background: var(--input-bg); color: rgba(240,240,240,.7); padding: 12px; font-family: 'DM Mono', monospace; font-size: 11px; resize: vertical; }
-    main { flex: 1; overflow: auto; display: flex; align-items: flex-start; justify-content: center; padding: 24px; background: var(--bg); }
-    .stage-wrapper { width: min(900px, calc(100vw - var(--sidebar) - 48px)); aspect-ratio: 1780 / 1080; position: relative; flex-shrink: 0; }
-    .stage { position: absolute; transform-origin: top left; overflow: hidden; border: 1px solid var(--border); box-shadow: 0 24px 80px rgba(0,0,0,.6); }
+    main { flex: 1; padding: 24px; background: var(--bg); overflow: visible; }
+    .stage-wrapper { width: 100%; max-width: 600px; aspect-ratio: 1080 / 1780; position: relative; margin: 0 auto; }
+    .stage { position: absolute; inset: 0; width: 100%; height: 100%; overflow: hidden; border: 1px solid var(--border); box-shadow: 0 24px 80px rgba(0,0,0,.6); }
     .frame-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: fill; display: block; z-index: 1; user-select: none; pointer-events: none; }
     #overlay { position: absolute; inset: 0; z-index: 2; }
     .overlay-item { position: absolute; transform: translate(-50%, -50%); color: #111; font-weight: 900; white-space: nowrap; cursor: grab; user-select: none; line-height: 1; font-variant-numeric: tabular-nums; font-family: Arial, Helvetica, sans-serif; text-shadow: 0 0 1px rgba(255,255,255,.6), 0 1px 0 rgba(255,255,255,.35); }
     .overlay-item.active { outline: 1.5px dashed var(--gold); outline-offset: 3px; z-index: 10; }
     .overlay-item:active { cursor: grabbing; }
+    .overlay-item.selected { outline: 1.5px solid rgba(245,197,24,.6); outline-offset: 3px; }
+    .overlay-item.active.selected { outline: 2px solid var(--gold); outline-offset: 3px; }
   </style>
 </head>
 <body>
@@ -79,7 +81,7 @@
         <label>Font size (px)</label>
         <input id="fontSize" type="number" step="1" min="8" max="120" />
       </div>
-      <div class="hint">Arrow keys nudge 1px · Shift+Arrow = 10px</div>
+      <div class="hint">Click to select · Shift/Cmd+Click to multi-select · Drag any selected item to move the group · Arrow keys nudge 1px · Shift+Arrow = 10px · Font size applies to all selected</div>
       <div class="section-label" style="margin-top:14px">All items</div>
       <div class="item-list" id="list"></div>
       <textarea id="exportBox" spellcheck="false"></textarea>
@@ -100,7 +102,7 @@
 
     const PRICE_VALUES = {"jerk_wings_s":0,"jerk_wings_m":0,"jerk_wings_l":0,"stew_chicken_s":0,"stew_chicken_m":0,"stew_chicken_l":0,"fried_chicken_s":0,"fried_chicken_m":0,"fried_chicken_l":0,"escovitch_chicken_s":0,"escovitch_chicken_m":0,"escovitch_chicken_l":0,"jerk_chicken_s":0,"jerk_chicken_m":0,"jerk_chicken_l":0,"curry_chicken_s":0,"curry_chicken_m":0,"curry_chicken_l":0,"stew_peas_s":0,"stew_peas_m":0,"stew_peas_l":0,"escovitch_whiting_s":0,"escovitch_whiting_m":0,"escovitch_whiting_l":0,"curry_goat_s":0,"curry_goat_m":0,"curry_goat_l":0,"oxtail_s":0,"oxtail_m":0,"oxtail_l":0,"salmon_s":0,"salmon_m":0,"salmon_l":0,"glazed_salmon_s":0,"glazed_salmon_m":0,"glazed_salmon_l":0,"snapper_s":0,"snapper_m":0,"snapper_l":0,"chicken_jerk_quarter":0,"chicken_jerk_half":0,"chicken_fry_quarter":0,"chicken_fry_half":0,"chicken_wings_5pc":0,"side_cabbage_s":0,"side_cabbage_m":0,"side_cabbage_l":0,"side_white_rice_s":0,"side_white_rice_m":0,"side_white_rice_l":0,"side_mac_cheese_s":0,"side_mac_cheese_m":0,"side_mac_cheese_l":0,"side_festival_s":0,"side_festival_m":0,"side_festival_l":0,"side_fried_plantain_s":0,"side_fried_plantain_m":0,"side_fried_plantain_l":0,"side_fried_dumplings_s":0,"side_fried_dumplings_m":0,"side_fried_dumplings_l":0,"side_pasta_s":0,"side_pasta_m":0,"side_pasta_l":0};
 
-    const STORAGE_KEY = "mckenzie_overlay_editor_operate_v1";
+    const STORAGE_KEY = "mckenzie_overlay_editor_operate_v2";
     const CW = 1080, CH = 1780;
 
     function clone(o) { return JSON.parse(JSON.stringify(o)); }
@@ -113,20 +115,22 @@
       } catch(e) { return clone(DEFAULT_MAP); }
     }
 
-    const state = { map: loadMap(), activeId: null };
+    // ── STATE ─────────────────────────────────────────────────────────────────
+    const state = {
+      map: loadMap(),
+      activeId: null,
+      selectedIds: new Set()  // multi-select set
+    };
+
     function getItem(id) { return state.map.items.find(i => i.id === id); }
 
     const stageWrapper = document.getElementById('stageWrapper');
     const stage = document.getElementById('stage');
 
     function layoutStage() {
-      const wrapW = stageWrapper.clientWidth;
-      const wrapH = stageWrapper.clientHeight;
-      const sw = wrapH, sh = wrapW;
-      stage.style.width  = sw + 'px';
-      stage.style.height = sh + 'px';
-      stage.style.transform = `rotate(90deg) translateY(-${sw}px)`;
-      stage.style.transformOrigin = 'top left';
+      stage.style.width  = '100%';
+      stage.style.height = '100%';
+      stage.style.transform = '';
       renderOverlay();
     }
     window.addEventListener('resize', layoutStage);
@@ -137,66 +141,133 @@
       return Number.isInteger(n) ? String(n) : n.toFixed(2);
     }
 
+    // ── RENDER ────────────────────────────────────────────────────────────────
     function renderOverlay() {
       const overlay = document.getElementById('overlay');
       overlay.innerHTML = '';
-      const sw = parseFloat(stage.style.width)  || stage.clientWidth;
-      const sh = parseFloat(stage.style.height) || stage.clientHeight;
       for (const item of state.map.items) {
+        const isActive   = item.id === state.activeId;
+        const isSelected = state.selectedIds.has(item.id);
         const el = document.createElement('div');
-        el.className = 'overlay-item' + (item.id === state.activeId ? ' active' : '');
+        el.className = 'overlay-item' + (isActive ? ' active' : '') + (isSelected ? ' selected' : '');
         el.dataset.id = item.id;
         el.style.left = (item.x / CW * 100) + '%';
         el.style.top  = (item.y / CH * 100) + '%';
         el.style.fontSize = (item.fontSize || 16) + 'px';
         el.textContent = formatPrice(PRICE_VALUES[item.id] ?? '');
-        attachDrag(el, item.id, sw, sh);
-        el.addEventListener('click', e => { e.stopPropagation(); setActive(item.id); });
+        attachDrag(el, item.id);
+        el.addEventListener('click', e => {
+          e.stopPropagation();
+          if (e.shiftKey || e.metaKey || e.ctrlKey) {
+            // Toggle into multi-select
+            if (state.selectedIds.has(item.id)) {
+              state.selectedIds.delete(item.id);
+            } else {
+              state.selectedIds.add(item.id);
+            }
+            state.activeId = item.id;
+          } else {
+            // Single select — clear others
+            state.selectedIds.clear();
+            state.selectedIds.add(item.id);
+            state.activeId = item.id;
+          }
+          renderOverlay();
+        });
         overlay.appendChild(el);
       }
       renderList(); renderExport(); syncInputs();
     }
 
-    function attachDrag(el, id) {
-      let dragging = false;
-      function toCanvas(clientX, clientY) {
-        const rect = stage.getBoundingClientRect();
-        const rx = (clientX - rect.left) / rect.width;
-        const ry = (clientY - rect.top)  / rect.height;
-        return {
-          x: Math.max(0, Math.min(CW, Math.round(ry * CW))),
-          y: Math.max(0, Math.min(CH, Math.round((1 - rx) * CH)))
-        };
+    // ── DRAG ──────────────────────────────────────────────────────────────────
+    // Update DOM positions without full re-render to preserve pointer capture
+    function updatePositionsDOM() {
+      const overlay = document.getElementById('overlay');
+      for (const el of overlay.querySelectorAll('.overlay-item')) {
+        const item = getItem(el.dataset.id);
+        if (!item) continue;
+        el.style.left = (item.x / CW * 100) + '%';
+        el.style.top  = (item.y / CH * 100) + '%';
       }
-      el.addEventListener('pointerdown', e => {
-        dragging = true; el.setPointerCapture(e.pointerId); setActive(id);
-        const pos = toCanvas(e.clientX, e.clientY);
-        const item = getItem(id); item.x = pos.x; item.y = pos.y;
-        renderOverlay(); e.stopPropagation();
-      });
-      el.addEventListener('pointermove', e => {
-        if (!dragging) return;
-        const pos = toCanvas(e.clientX, e.clientY);
-        const item = getItem(id); item.x = pos.x; item.y = pos.y;
-        renderOverlay(); queueSave();
-      });
-      el.addEventListener('pointerup',     () => { dragging = false; });
-      el.addEventListener('pointercancel', () => { dragging = false; });
+      syncInputs();
     }
 
+    function toCanvas(clientX, clientY) {
+      const rect = stage.getBoundingClientRect();
+      return {
+        x: Math.max(0, Math.min(CW, Math.round((clientX - rect.left) / rect.width  * CW))),
+        y: Math.max(0, Math.min(CH, Math.round((clientY - rect.top)  / rect.height * CH)))
+      };
+    }
+
+    function attachDrag(el, id) {
+      let dragging = false;
+      let lastCanvasPos = null;
+
+      el.addEventListener('pointerdown', e => {
+        e.stopPropagation();
+        // If item not in selection, make it the only one
+        if (!state.selectedIds.has(id)) {
+          state.selectedIds.clear();
+          state.selectedIds.add(id);
+          state.activeId = id;
+          renderOverlay(); // full re-render only on selection change
+        } else {
+          state.activeId = id;
+        }
+        dragging = true;
+        el.setPointerCapture(e.pointerId);
+        lastCanvasPos = toCanvas(e.clientX, e.clientY);
+      });
+
+      el.addEventListener('pointermove', e => {
+        if (!dragging || !lastCanvasPos) return;
+        const pos = toCanvas(e.clientX, e.clientY);
+        const dx = pos.x - lastCanvasPos.x;
+        const dy = pos.y - lastCanvasPos.y;
+        if (dx === 0 && dy === 0) return;
+
+        for (const sid of state.selectedIds) {
+          const item = getItem(sid);
+          if (!item) continue;
+          item.x = Math.max(0, Math.min(CW, item.x + dx));
+          item.y = Math.max(0, Math.min(CH, item.y + dy));
+        }
+
+        lastCanvasPos = pos;
+        updatePositionsDOM(); // lightweight update — no DOM rebuild
+        queueSave();
+      });
+
+      el.addEventListener('pointerup', () => {
+        if (dragging) { dragging = false; lastCanvasPos = null; renderOverlay(); }
+      });
+      el.addEventListener('pointercancel', () => {
+        dragging = false; lastCanvasPos = null;
+      });
+    }
+
+    // ── KEYBOARD ──────────────────────────────────────────────────────────────
     document.addEventListener('keydown', e => {
-      const item = getItem(state.activeId); if (!item) return;
+      if (!state.selectedIds.size) return;
       const step = e.shiftKey ? 10 : 1;
-      if      (e.key === 'ArrowLeft')  item.x -= step;
-      else if (e.key === 'ArrowRight') item.x += step;
-      else if (e.key === 'ArrowUp')    item.y -= step;
-      else if (e.key === 'ArrowDown')  item.y += step;
+      let dx = 0, dy = 0;
+      if      (e.key === 'ArrowLeft')  dx = -step;
+      else if (e.key === 'ArrowRight') dx =  step;
+      else if (e.key === 'ArrowUp')    dy = -step;
+      else if (e.key === 'ArrowDown')  dy =  step;
       else return;
-      item.x = Math.max(0, Math.min(CW, item.x));
-      item.y = Math.max(0, Math.min(CH, item.y));
+
+      for (const sid of state.selectedIds) {
+        const item = getItem(sid);
+        if (!item) continue;
+        item.x = Math.max(0, Math.min(CW, item.x + dx));
+        item.y = Math.max(0, Math.min(CH, item.y + dy));
+      }
       renderOverlay(); queueSave(); e.preventDefault();
     });
 
+    // ── INPUTS ────────────────────────────────────────────────────────────────
     const selectedIdEl = document.getElementById('selectedId');
     const posXEl       = document.getElementById('posX');
     const posYEl       = document.getElementById('posY');
@@ -206,13 +277,12 @@
 
     function syncInputs() {
       const item = getItem(state.activeId);
-      selectedIdEl.value = item?.id || '';
-      posXEl.value       = item?.x  ?? '';
-      posYEl.value       = item?.y  ?? '';
-      fontSizeEl.value   = item?.fontSize ?? 16;
+      const count = state.selectedIds.size;
+      selectedIdEl.value = count > 1 ? `${count} selected` : (item?.id || '');
+      posXEl.value       = count > 1 ? '' : (item?.x  ?? '');
+      posYEl.value       = count > 1 ? '' : (item?.y  ?? '');
+      fontSizeEl.value   = count > 1 ? '' : (item?.fontSize ?? 16);
     }
-
-    function setActive(id) { state.activeId = id; renderOverlay(); }
 
     posXEl.addEventListener('input', () => {
       const item = getItem(state.activeId); if (!item) return;
@@ -227,24 +297,41 @@
       renderOverlay(); queueSave();
     });
     fontSizeEl.addEventListener('input', () => {
-      const item = getItem(state.activeId); if (!item) return;
+      // Apply font size to all selected
       const n = Number(fontSizeEl.value); if (isNaN(n)) return;
-      item.fontSize = Math.max(8, Math.min(120, Math.round(n)));
+      const size = Math.max(8, Math.min(120, Math.round(n)));
+      for (const sid of state.selectedIds) {
+        const item = getItem(sid);
+        if (item) item.fontSize = size;
+      }
       renderOverlay(); queueSave();
     });
 
+    // ── LIST ──────────────────────────────────────────────────────────────────
     function renderList() {
       const list = document.getElementById('list');
       list.innerHTML = '';
       for (const item of state.map.items) {
+        const isSelected = state.selectedIds.has(item.id);
         const el = document.createElement('div');
-        el.className = 'list-item' + (item.id === state.activeId ? ' active' : '');
+        el.className = 'list-item' + (isSelected ? ' active' : '');
         el.textContent = item.label;
-        el.onclick = () => setActive(item.id);
+        el.onclick = (e) => {
+          if (e.shiftKey || e.metaKey || e.ctrlKey) {
+            if (state.selectedIds.has(item.id)) state.selectedIds.delete(item.id);
+            else state.selectedIds.add(item.id);
+          } else {
+            state.selectedIds.clear();
+            state.selectedIds.add(item.id);
+          }
+          state.activeId = item.id;
+          renderOverlay();
+        };
         list.appendChild(el);
       }
     }
 
+    // ── EXPORT ────────────────────────────────────────────────────────────────
     function renderExport() { exportBox.value = JSON.stringify(state.map, null, 2); }
 
     exportBox.addEventListener('change', () => {
@@ -252,11 +339,14 @@
         const p = JSON.parse(exportBox.value);
         if (!p || !Array.isArray(p.items)) throw new Error('bad');
         state.map = p;
-        if (!getItem(state.activeId)) state.activeId = state.map.items[0]?.id ?? null;
+        state.selectedIds.clear();
+        state.activeId = state.map.items[0]?.id ?? null;
+        state.selectedIds.add(state.activeId);
         renderOverlay(); setStatus('Loaded from JSON box.');
       } catch(e) { setStatus('Invalid JSON.'); }
     });
 
+    // ── SAVE ──────────────────────────────────────────────────────────────────
     function setStatus(t) { saveStatusEl.textContent = t; }
     let saveTimer = null;
     function queueSave() {
@@ -267,6 +357,7 @@
       }, 150);
     }
 
+    // ── TOOLBAR ───────────────────────────────────────────────────────────────
     document.getElementById('copyBtn').onclick = async () => {
       await navigator.clipboard.writeText(JSON.stringify(state.map, null, 2));
       setStatus('JSON copied to clipboard.');
@@ -280,16 +371,23 @@
     document.getElementById('resetBtn').onclick = () => {
       localStorage.removeItem(STORAGE_KEY);
       state.map = clone(DEFAULT_MAP);
+      state.selectedIds.clear();
       state.activeId = state.map.items[0]?.id ?? null;
+      state.selectedIds.add(state.activeId);
       layoutStage(); setStatus('Reset to default map.');
     };
-    document.getElementById('overlay').addEventListener('click', () => { state.activeId = null; renderOverlay(); });
-    window.addEventListener('resize', renderStage);
 
-    function renderStage() { layoutStage(); }
+    // Click on empty canvas = deselect all
+    document.getElementById('overlay').addEventListener('click', () => {
+      state.activeId = null;
+      state.selectedIds.clear();
+      renderOverlay();
+    });
 
+    // ── INIT ──────────────────────────────────────────────────────────────────
     setStatus(localStorage.getItem(STORAGE_KEY) ? 'Loaded autosaved map.' : 'Using default map.');
     state.activeId = state.map.items[0]?.id ?? null;
+    state.selectedIds.add(state.activeId);
     window.addEventListener('load', layoutStage);
     if (document.readyState === 'complete') layoutStage();
   </script>
