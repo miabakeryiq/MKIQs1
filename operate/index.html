@@ -69,14 +69,14 @@
     <div id="overlay"></div>
   </div>
   <div class="status" id="statusBox">Operate screen ready.</div>
-
+ 
   <script>
     async function loadOverlayMap() {
       const res = await fetch('overlay-map-operate.json');
       if (!res.ok) throw new Error('Failed to load overlay-map-operate.json');
       return await res.json();
     }
-
+ 
     const FALLBACK_PRICES = {
       "jerk_wings_s":0,"jerk_wings_m":0,"jerk_wings_l":0,
       "stew_chicken_s":0,"stew_chicken_m":0,"stew_chicken_l":0,
@@ -101,21 +101,21 @@
       "side_fried_dumplings_s":0,"side_fried_dumplings_m":0,"side_fried_dumplings_l":0,
       "side_pasta_s":0,"side_pasta_m":0,"side_pasta_l":0
     };
-
+ 
     // ← Set to your Render URL
     const API_BASE   = window.MENU_API_BASE   || "https://mckcode.onrender.com";
     const SCREEN_ID  = window.MENU_SCREEN_ID  || "mckenzie-operate";
     const POLL_MS    = window.MENU_POLL_MS    || 5000;
-
+ 
     const statusBox = document.getElementById("statusBox");
     function setStatus(t) { statusBox.textContent = t; }
-
+ 
     function formatPrice(value) {
       const n = Number(value);
       if (Number.isNaN(n)) return String(value ?? "");
       return Number.isInteger(n) ? String(n) : n.toFixed(2);
     }
-
+ 
     async function loadPrices() {
       try {
         const res = await fetch(`${API_BASE}/screens/${encodeURIComponent(SCREEN_ID)}/prices`, { cache: "no-store" });
@@ -127,16 +127,16 @@
         return FALLBACK_PRICES;
       }
     }
-
+ 
     // Cache the map so we only fetch it once
     let OVERLAY_MAP_CACHE = null;
-
+ 
     async function getMap() {
       if (OVERLAY_MAP_CACHE) return OVERLAY_MAP_CACHE;
       OVERLAY_MAP_CACHE = await loadOverlayMap();
       return OVERLAY_MAP_CACHE;
     }
-
+ 
     // Build overlay DOM once from the map
     async function buildOverlay() {
       const map = await getMap();
@@ -146,29 +146,36 @@
         const el = document.createElement("div");
         el.className = "price-tag";
         el.dataset.id = item.id;
+        el.dataset.type = item.type || "price";
         el.style.left = `${(item.x / map.canvas.width) * 100}%`;
         el.style.top  = `${(item.y / map.canvas.height) * 100}%`;
         el.style.fontSize = `${item.fontSize || 16}px`;
-        el.textContent = "";
+        // Label items render immediately, price items wait for API
+        el.textContent = item.type === "label" ? item.label : "";
+        if (item.type === "label") {
+          el.style.color = "#f5c518";
+          el.style.textDecoration = "underline";
+        }
         overlay.appendChild(el);
       }
     }
-
+ 
     // Only update price text — no DOM rebuild, no flicker
     async function updatePrices() {
       const prices = await loadPrices();
       const overlay = document.getElementById("overlay");
       for (const el of overlay.querySelectorAll(".price-tag")) {
+        if (el.dataset.type === "label") continue; // labels are static
         el.textContent = formatPrice(prices[el.dataset.id] ?? "");
       }
     }
-
+ 
     async function init() {
       await buildOverlay();
       await updatePrices();
       setInterval(updatePrices, POLL_MS);
     }
-
+ 
     const v = document.getElementById("player");
     function tryPlay() {
       v.play().catch(() => {
@@ -179,8 +186,9 @@
     v.addEventListener("loadeddata",    tryPlay);
     v.addEventListener("canplaythrough", tryPlay);
     setTimeout(tryPlay, 2000);
-
+ 
     init();
   </script>
 </body>
 </html>
+ 
