@@ -29,21 +29,21 @@
       "id": "ackee_saltfish_s",
       "label": "Ackee & Saltfish S",
       "x": 380,
-      "y": 433,
+      "y": 430,
       "fontSize": 18
     },
     {
       "id": "ackee_saltfish_m",
       "label": "Ackee & Saltfish M",
       "x": 444,
-      "y": 432,
+      "y": 429,
       "fontSize": 18
     },
     {
       "id": "ackee_saltfish_l",
       "label": "Ackee & Saltfish L",
       "x": 513,
-      "y": 432,
+      "y": 427,
       "fontSize": 18
     },
     {
@@ -64,7 +64,7 @@
       "id": "callaloo_saltfish_l",
       "label": "Callaloo & Saltfish L",
       "x": 513,
-      "y": 473,
+      "y": 471,
       "fontSize": 18
     },
     {
@@ -84,7 +84,7 @@
     {
       "id": "butterbeans_saltfish_l",
       "label": "Butterbeans & Saltfish L",
-      "x": 514,
+      "x": 515,
       "y": 517,
       "fontSize": 18
     },
@@ -126,7 +126,7 @@
     {
       "id": "kidney_l",
       "label": "Kidney L",
-      "x": 516,
+      "x": 515,
       "y": 596,
       "fontSize": 18
     },
@@ -147,93 +147,93 @@
     {
       "id": "stew_chicken_l",
       "label": "Stew Chicken L",
-      "x": 517,
-      "y": 639,
+      "x": 515,
+      "y": 638,
       "fontSize": 18
     },
     {
       "id": "porridge_oatmeal_s",
       "label": "Oatmeal S",
-      "x": 940,
-      "y": 337,
-      "fontSize": 21
+      "x": 947,
+      "y": 344,
+      "fontSize": 17
     },
     {
       "id": "porridge_oatmeal_l",
       "label": "Oatmeal L",
-      "x": 1000,
-      "y": 338,
-      "fontSize": 21
+      "x": 1006,
+      "y": 343,
+      "fontSize": 17
     },
     {
       "id": "porridge_peanut_s",
       "label": "Peanut S",
-      "x": 940,
-      "y": 374,
-      "fontSize": 21
+      "x": 947,
+      "y": 376,
+      "fontSize": 17
     },
     {
       "id": "porridge_peanut_l",
       "label": "Peanut L",
-      "x": 999,
-      "y": 375,
-      "fontSize": 21
+      "x": 1006,
+      "y": 376,
+      "fontSize": 17
     },
     {
       "id": "porridge_plantain_s",
       "label": "Plantain S",
-      "x": 940,
+      "x": 948,
       "y": 413,
-      "fontSize": 21
+      "fontSize": 17
     },
     {
       "id": "porridge_plantain_l",
       "label": "Plantain L",
-      "x": 1000,
+      "x": 1007,
       "y": 413,
-      "fontSize": 21
+      "fontSize": 17
     },
     {
       "id": "porridge_carrot_s",
       "label": "Carrot S",
-      "x": 940,
-      "y": 452,
-      "fontSize": 21
+      "x": 948,
+      "y": 454,
+      "fontSize": 17
     },
     {
       "id": "porridge_carrot_l",
       "label": "Carrot L",
-      "x": 1000,
-      "y": 452,
-      "fontSize": 21
+      "x": 1007,
+      "y": 454,
+      "fontSize": 17
     },
     {
       "id": "porridge_cornmeal_s",
       "label": "Cornmeal S",
-      "x": 940,
-      "y": 300,
-      "fontSize": 21
+      "x": 947,
+      "y": 310,
+      "fontSize": 17
     },
     {
       "id": "porridge_cornmeal_l",
       "label": "Cornmeal L",
-      "x": 999,
-      "y": 300,
-      "fontSize": 21
+      "x": 1006,
+      "y": 311,
+      "fontSize": 17
     },
     {
       "id": "porridge_hominy_s",
       "label": "Hominy S",
-      "x": 941,
-      "y": 490,
-      "fontSize": 21
+      "x": 947,
+      "y": 497,
+      "fontSize": 17
     },
     {
       "id": "porridge_hominy_l",
       "label": "Hominy L",
-      "x": 1000,
-      "y": 490,
-      "fontSize": 21
+      "x": 1007,
+      "y": 497,
+      "fontSize": 17
     },
     {
       "id": "patty_curry_chicken",
@@ -252,156 +252,156 @@
     {
       "id": "patty_beef_mild",
       "label": "Beef Mild",
-      "x": 456,
+      "x": 454,
       "y": 1043,
       "fontSize": 20
     },
     {
       "id": "patty_beefy_cheese",
       "label": "Beefy Cheese",
-      "x": 456,
+      "x": 454,
       "y": 1089,
       "fontSize": 20
     },
     {
       "id": "patty_veggie",
       "label": "Veggie",
-      "x": 459,
-      "y": 1135,
+      "x": 455,
+      "y": 1133,
       "fontSize": 20
     },
     {
       "id": "patty_spinach",
       "label": "Spinach",
-      "x": 462,
-      "y": 1179,
+      "x": 458,
+      "y": 1182,
       "fontSize": 20
     },
     {
       "id": "patty_spinach_cheese",
       "label": "Spinach w/ cheese",
-      "x": 457,
-      "y": 1232,
+      "x": 456,
+      "y": 1229,
       "fontSize": 20
     },
     {
       "id": "patty_coco_bread",
       "label": "Coco Bread",
-      "x": 457,
-      "y": 1276,
+      "x": 456,
+      "y": 1277,
       "fontSize": 20
     },
     {
       "id": "soup_chicken_s",
       "label": "Soup Chicken S",
-      "x": 950,
-      "y": 973,
-      "fontSize": 21
+      "x": 945,
+      "y": 974,
+      "fontSize": 17
     },
     {
       "id": "soup_chicken_l",
       "label": "Soup Chicken L",
-      "x": 1002,
-      "y": 970,
-      "fontSize": 21
+      "x": 995,
+      "y": 974,
+      "fontSize": 17
     },
     {
       "id": "soup_beef_s",
       "label": "Soup Beef S",
-      "x": 951,
-      "y": 1009,
-      "fontSize": 21
+      "x": 945,
+      "y": 1011,
+      "fontSize": 17
     },
     {
       "id": "soup_beef_l",
       "label": "Soup Beef L",
-      "x": 1002,
-      "y": 1007,
-      "fontSize": 21
+      "x": 995,
+      "y": 1011,
+      "fontSize": 17
     },
     {
       "id": "soup_red_peas_s",
       "label": "Soup Red Peas S",
-      "x": 950,
-      "y": 1050,
-      "fontSize": 21
+      "x": 945,
+      "y": 1047,
+      "fontSize": 17
     },
     {
       "id": "soup_red_peas_l",
       "label": "Soup Red Peas L",
-      "x": 1003,
+      "x": 995,
       "y": 1047,
-      "fontSize": 21
+      "fontSize": 17
     },
     {
       "id": "soup_goat_s",
       "label": "Soup Goat S",
-      "x": 951,
-      "y": 1089,
-      "fontSize": 21
+      "x": 944,
+      "y": 1088,
+      "fontSize": 17
     },
     {
       "id": "soup_goat_l",
       "label": "Soup Goat L",
-      "x": 1004,
+      "x": 996,
       "y": 1087,
-      "fontSize": 21
+      "fontSize": 17
     },
     {
       "id": "soup_cowfoot_s",
       "label": "Soup Cowfoot S",
-      "x": 948,
-      "y": 1133,
-      "fontSize": 21
+      "x": 943,
+      "y": 1127,
+      "fontSize": 17
     },
     {
       "id": "soup_cowfoot_l",
       "label": "Soup Cowfoot L",
-      "x": 1003,
-      "y": 1133,
-      "fontSize": 21
+      "x": 996,
+      "y": 1128,
+      "fontSize": 17
     },
     {
       "id": "bev_dg_soda",
       "label": "D & G Soda",
-      "x": 393,
-      "y": 1499,
-      "fontSize": 20
+      "x": 404,
+      "y": 1493,
+      "fontSize": 17
     },
     {
       "id": "bev_snapple",
       "label": "Snapple",
-      "x": 392,
-      "y": 1538,
-      "fontSize": 20
+      "x": 400,
+      "y": 1537,
+      "fontSize": 18
     },
     {
       "id": "bev_tropical_rhythm",
       "label": "Tropical Rhythm",
-      "x": 392,
-      "y": 1582,
-      "fontSize": 20
+      "x": 400,
+      "y": 1581,
+      "fontSize": 18
     },
     {
       "id": "bev_canned_soda",
       "label": "Canned Soda",
-      "x": 396,
-      "y": 1626,
-      "fontSize": 20
+      "x": 404,
+      "y": 1623,
+      "fontSize": 18
     },
     {
       "id": "bev_water",
       "label": "Water",
-      "x": 397,
-      "y": 1669,
-      "fontSize": 20
+      "x": 405,
+      "y": 1663,
+      "fontSize": 18
     },
     {
       "id": "lbl_main_s",
       "label": "S",
       "type": "label",
       "x": 381,
-      "y": 368,
+      "y": 367,
       "fontSize": 16
     },
     {
@@ -409,7 +409,7 @@
       "label": "M",
       "type": "label",
       "x": 444,
-      "y": 369,
+      "y": 367,
       "fontSize": 16
     },
     {
@@ -424,33 +424,33 @@
       "id": "lbl_soup_s",
       "label": "S",
       "type": "label",
-      "x": 950,
-      "y": 942,
+      "x": 946,
+      "y": 946,
       "fontSize": 16
     },
     {
       "id": "lbl_soup_l",
       "label": "L",
       "type": "label",
-      "x": 1001,
-      "y": 941,
+      "x": 996,
+      "y": 946,
       "fontSize": 16
     },
     {
       "id": "lbl_porridge_s",
       "label": "S",
       "type": "label",
-      "x": 939,
-      "y": 266,
-      "fontSize": 16
+      "x": 947,
+      "y": 280,
+      "fontSize": 14
     },
     {
       "id": "lbl_porridge_l",
       "label": "L",
       "type": "label",
-      "x": 999,
-      "y": 265,
-      "fontSize": 16
+      "x": 1006,
+      "y": 280,
+      "fontSize": 14
     }
   ]
 }
