@@ -273,7 +273,7 @@
     {
       "id": "patty_spinach",
       "label": "Spinach",
-      "x": 458,
+      "x": 456,
       "y": 1182,
       "fontSize": 20
     },
@@ -365,7 +365,7 @@
       "id": "bev_dg_soda",
       "label": "D & G Soda",
       "x": 404,
-      "y": 1493,
+      "y": 1497,
       "fontSize": 17
     },
     {
@@ -373,28 +373,28 @@
       "label": "Snapple",
       "x": 400,
       "y": 1537,
-      "fontSize": 18
+      "fontSize": 17
     },
     {
       "id": "bev_tropical_rhythm",
       "label": "Tropical Rhythm",
       "x": 400,
       "y": 1581,
-      "fontSize": 18
+      "fontSize": 17
     },
     {
       "id": "bev_canned_soda",
       "label": "Canned Soda",
-      "x": 404,
+      "x": 400,
       "y": 1623,
-      "fontSize": 18
+      "fontSize": 17
     },
     {
       "id": "bev_water",
       "label": "Water",
-      "x": 405,
+      "x": 400,
       "y": 1663,
-      "fontSize": 18
+      "fontSize": 17
     },
     {
       "id": "lbl_main_s",
@@ -425,7 +425,7 @@
       "label": "S",
       "type": "label",
       "x": 946,
-      "y": 946,
+      "y": 941,
       "fontSize": 16
     },
     {
@@ -433,7 +433,7 @@
       "label": "L",
       "type": "label",
       "x": 996,
-      "y": 946,
+      "y": 941,
       "fontSize": 16
     },
     {
