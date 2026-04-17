@@ -170,22 +170,22 @@
     <div class="list" id="list"></div>
     <textarea id="exportBox" spellcheck="false"></textarea>
   </aside>
- 
+
   <main>
     <div class="stage" id="stage">
       <img src="./Menu1_test_static.png" alt="" class="frame-img" />
       <div id="overlay"></div>
     </div>
   </main>
- 
+
   <script>
-    const DEFAULT_MAP = {"canvas":{"width":1080,"height":1780},"items":[{"id":"beef_liver_s","label":"Beef Liver S","x":381,"y":397,"fontSize":18},{"id":"beef_liver_m","label":"Beef Liver M","x":444,"y":398,"fontSize":18},{"id":"beef_liver_l","label":"Beef Liver L","x":511,"y":399,"fontSize":18},{"id":"ackee_saltfish_s","label":"Ackee & Saltfish S","x":380,"y":430,"fontSize":18},{"id":"ackee_saltfish_m","label":"Ackee & Saltfish M","x":444,"y":429,"fontSize":18},{"id":"ackee_saltfish_l","label":"Ackee & Saltfish L","x":513,"y":427,"fontSize":18},{"id":"callaloo_saltfish_s","label":"Callaloo & Saltfish S","x":382,"y":474,"fontSize":18},{"id":"callaloo_saltfish_m","label":"Callaloo & Saltfish M","x":445,"y":473,"fontSize":18},{"id":"callaloo_saltfish_l","label":"Callaloo & Saltfish L","x":513,"y":471,"fontSize":18},{"id":"butterbeans_saltfish_s","label":"Butterbeans & Saltfish S","x":383,"y":516,"fontSize":18},{"id":"butterbeans_saltfish_m","label":"Butterbeans & Saltfish M","x":445,"y":516,"fontSize":18},{"id":"butterbeans_saltfish_l","label":"Butterbeans & Saltfish L","x":515,"y":517,"fontSize":18},{"id":"cookup_saltfish_s","label":"Cook-up Saltfish S","x":382,"y":560,"fontSize":18},{"id":"cookup_saltfish_m","label":"Cook-up Saltfish M","x":446,"y":559,"fontSize":18},{"id":"cookup_saltfish_l","label":"Cook-up Saltfish L","x":515,"y":559,"fontSize":18},{"id":"kidney_s","label":"Kidney S","x":382,"y":599,"fontSize":18},{"id":"kidney_m","label":"Kidney M","x":447,"y":598,"fontSize":18},{"id":"kidney_l","label":"Kidney L","x":515,"y":596,"fontSize":18},{"id":"stew_chicken_s","label":"Stew Chicken S","x":381,"y":639,"fontSize":18},{"id":"stew_chicken_m","label":"Stew Chicken M","x":448,"y":639,"fontSize":18},{"id":"stew_chicken_l","label":"Stew Chicken L","x":515,"y":638,"fontSize":18},{"id":"porridge_oatmeal_s","label":"Oatmeal S","x":947,"y":344,"fontSize":21},{"id":"porridge_oatmeal_l","label":"Oatmeal L","x":1007,"y":345,"fontSize":21},{"id":"porridge_peanut_s","label":"Peanut S","x":947,"y":381,"fontSize":21},{"id":"porridge_peanut_l","label":"Peanut L","x":1006,"y":382,"fontSize":21},{"id":"porridge_plantain_s","label":"Plantain S","x":948,"y":420,"fontSize":21},{"id":"porridge_plantain_l","label":"Plantain L","x":993,"y":420,"fontSize":21},{"id":"porridge_carrot_s","label":"Carrot S","x":935,"y":459,"fontSize":21},{"id":"porridge_carrot_l","label":"Carrot L","x":992,"y":459,"fontSize":21},{"id":"porridge_cornmeal_s","label":"Cornmeal S","x":947,"y":307,"fontSize":21},{"id":"porridge_cornmeal_l","label":"Cornmeal L","x":1006,"y":307,"fontSize":21},{"id":"porridge_hominy_s","label":"Hominy S","x":947,"y":497,"fontSize":21},{"id":"porridge_hominy_l","label":"Hominy L","x":1006,"y":497,"fontSize":21},{"id":"patty_curry_chicken","label":"Curry Chicken","x":453,"y":956,"fontSize":20},{"id":"patty_beef_spicy","label":"Beef (Spicy)","x":454,"y":1000,"fontSize":20},{"id":"patty_beef_mild","label":"Beef Mild","x":456,"y":1043,"fontSize":20},{"id":"patty_beefy_cheese","label":"Beefy Cheese","x":456,"y":1089,"fontSize":20},{"id":"patty_veggie","label":"Veggie","x":459,"y":1135,"fontSize":20},{"id":"patty_spinach","label":"Spinach","x":458,"y":1182,"fontSize":20},{"id":"patty_spinach_cheese","label":"Spinach w/ cheese","x":459,"y":1231,"fontSize":20},{"id":"patty_coco_bread","label":"Coco Bread","x":460,"y":1277,"fontSize":20},{"id":"soup_chicken_s","label":"Soup Chicken S","x":946,"y":978,"fontSize":21},{"id":"soup_chicken_l","label":"Soup Chicken L","x":996,"y":978,"fontSize":21},{"id":"soup_beef_s","label":"Soup Beef S","x":946,"y":1015,"fontSize":21},{"id":"soup_beef_l","label":"Soup Beef L","x":996,"y":1015,"fontSize":21},{"id":"soup_red_peas_s","label":"Soup Red Peas S","x":946,"y":1051,"fontSize":21},{"id":"soup_red_peas_l","label":"Soup Red Peas L","x":996,"y":1051,"fontSize":21},{"id":"soup_goat_s","label":"Soup Goat S","x":945,"y":1092,"fontSize":21},{"id":"soup_goat_l","label":"Soup Goat L","x":997,"y":1091,"fontSize":21},{"id":"soup_cowfoot_s","label":"Soup Cowfoot S","x":944,"y":1131,"fontSize":21},{"id":"soup_cowfoot_l","label":"Soup Cowfoot L","x":997,"y":1132,"fontSize":21},{"id":"bev_dg_soda","label":"D & G Soda","x":381,"y":1500,"fontSize":20},{"id":"bev_snapple","label":"Snapple","x":399,"y":1537,"fontSize":20},{"id":"bev_tropical_rhythm","label":"Tropical Rhythm","x":399,"y":1585,"fontSize":20},{"id":"bev_canned_soda","label":"Canned Soda","x":388,"y":1626,"fontSize":20},{"id":"bev_water","label":"Water","x":389,"y":1669,"fontSize":20},{"id":"lbl_main_s","label":"S","type":"label","x":381,"y":375,"fontSize":16},{"id":"lbl_main_m","label":"M","type":"label","x":444,"y":375,"fontSize":16},{"id":"lbl_main_l","label":"L","type":"label","x":512,"y":375,"fontSize":16},{"id":"lbl_soup_s","label":"S","type":"label","x":946,"y":958,"fontSize":16},{"id":"lbl_soup_l","label":"L","type":"label","x":996,"y":958,"fontSize":16},{"id":"lbl_porridge_s","label":"S","type":"label","x":947,"y":288,"fontSize":16},{"id":"lbl_porridge_l","label":"L","type":"label","x":1006,"y":288,"fontSize":16}]};
- 
-    const PRICE_VALUES = {"beef_liver_s":7,"beef_liver_m":12,"beef_liver_l":15,"ackee_saltfish_s":11,"ackee_saltfish_m":15,"ackee_saltfish_l":18,"callaloo_saltfish_s":7,"callaloo_saltfish_m":12,"callaloo_saltfish_l":15,"butterbeans_saltfish_s":7,"butterbeans_saltfish_m":12,"butterbeans_saltfish_l":15,"cookup_saltfish_s":7,"cookup_saltfish_m":12,"cookup_saltfish_l":15,"kidney_s":7,"kidney_m":12,"kidney_l":15,"stew_chicken_s":7,"stew_chicken_m":12,"stew_chicken_l":15,"porridge_oatmeal_s":5,"porridge_oatmeal_l":8,"porridge_peanut_s":5,"porridge_peanut_l":8,"porridge_plantain_s":5,"porridge_plantain_l":8,"porridge_carrot_s":5,"porridge_carrot_l":8,"porridge_cornmeal_s":5,"porridge_cornmeal_l":8,"porridge_hominy_s":5,"porridge_hominy_l":8,"patty_curry_chicken":3.5,"patty_beef_spicy":3.5,"patty_beef_mild":3.5,"patty_beefy_cheese":3.5,"patty_veggie":3.5,"patty_spinach":4.0,"patty_spinach_cheese":4.5,"patty_coco_bread":1.5,"soup_chicken_s":5,"soup_chicken_l":8,"soup_beef_s":5,"soup_beef_l":8,"soup_red_peas_s":5,"soup_red_peas_l":8,"soup_goat_s":5,"soup_goat_l":8,"soup_cowfoot_s":5,"soup_cowfoot_l":8,"bev_dg_soda":3.0,"bev_snapple":2.5,"bev_tropical_rhythm":2.5,"bev_canned_soda":1.0,"bev_water":1.0};
- 
-    const STORAGE_KEY = "mckenzie_overlay_editor_main_v2";
+    const DEFAULT_MAP = {"canvas":{"width":1080,"height":1780},"items":[{"id":"beef_liver_s","label":"Beef Liver S","x":381,"y":397,"fontSize":18},{"id":"beef_liver_m","label":"Beef Liver M","x":444,"y":398,"fontSize":18},{"id":"beef_liver_l","label":"Beef Liver L","x":511,"y":399,"fontSize":18},{"id":"ackee_saltfish_s","label":"Ackee & Saltfish S","x":380,"y":430,"fontSize":18},{"id":"ackee_saltfish_m","label":"Ackee & Saltfish M","x":444,"y":429,"fontSize":18},{"id":"ackee_saltfish_l","label":"Ackee & Saltfish L","x":513,"y":427,"fontSize":18},{"id":"callaloo_saltfish_s","label":"Callaloo & Saltfish S","x":382,"y":474,"fontSize":18},{"id":"callaloo_saltfish_m","label":"Callaloo & Saltfish M","x":445,"y":473,"fontSize":18},{"id":"callaloo_saltfish_l","label":"Callaloo & Saltfish L","x":513,"y":471,"fontSize":18},{"id":"butterbeans_saltfish_s","label":"Butterbeans & Saltfish S","x":383,"y":516,"fontSize":18},{"id":"butterbeans_saltfish_m","label":"Butterbeans & Saltfish M","x":445,"y":516,"fontSize":18},{"id":"butterbeans_saltfish_l","label":"Butterbeans & Saltfish L","x":515,"y":517,"fontSize":18},{"id":"cookup_saltfish_s","label":"Cook-up Saltfish S","x":382,"y":560,"fontSize":18},{"id":"cookup_saltfish_m","label":"Cook-up Saltfish M","x":446,"y":559,"fontSize":18},{"id":"cookup_saltfish_l","label":"Cook-up Saltfish L","x":515,"y":559,"fontSize":18},{"id":"kidney_s","label":"Kidney S","x":382,"y":599,"fontSize":18},{"id":"kidney_m","label":"Kidney M","x":447,"y":598,"fontSize":18},{"id":"kidney_l","label":"Kidney L","x":515,"y":596,"fontSize":18},{"id":"stew_chicken_s","label":"Stew Chicken S","x":381,"y":639,"fontSize":18},{"id":"stew_chicken_m","label":"Stew Chicken M","x":448,"y":639,"fontSize":18},{"id":"stew_chicken_l","label":"Stew Chicken L","x":515,"y":638,"fontSize":18},{"id":"porridge_oatmeal_s","label":"Oatmeal S","x":947,"y":344,"fontSize":21},{"id":"porridge_oatmeal_l","label":"Oatmeal L","x":1007,"y":345,"fontSize":21},{"id":"porridge_peanut_s","label":"Peanut S","x":947,"y":381,"fontSize":21},{"id":"porridge_peanut_l","label":"Peanut L","x":1006,"y":382,"fontSize":21},{"id":"porridge_plantain_s","label":"Plantain S","x":948,"y":420,"fontSize":21},{"id":"porridge_plantain_l","label":"Plantain L","x":993,"y":420,"fontSize":21},{"id":"porridge_carrot_s","label":"Carrot S","x":935,"y":459,"fontSize":21},{"id":"porridge_carrot_l","label":"Carrot L","x":992,"y":459,"fontSize":21},{"id":"porridge_cornmeal_s","label":"Cornmeal S","x":947,"y":307,"fontSize":21},{"id":"porridge_cornmeal_l","label":"Cornmeal L","x":1006,"y":307,"fontSize":21},{"id":"porridge_hominy_s","label":"Hominy S","x":947,"y":497,"fontSize":21},{"id":"porridge_hominy_l","label":"Hominy L","x":1006,"y":497,"fontSize":21},{"id":"patty_curry_chicken","label":"Curry Chicken","x":453,"y":956,"fontSize":20},{"id":"patty_beef_spicy","label":"Beef (Spicy)","x":454,"y":1000,"fontSize":20},{"id":"patty_beef_mild","label":"Beef Mild","x":456,"y":1043,"fontSize":20},{"id":"patty_beefy_cheese","label":"Beefy Cheese","x":456,"y":1089,"fontSize":20},{"id":"patty_veggie","label":"Veggie","x":459,"y":1135,"fontSize":20},{"id":"patty_spinach","label":"Spinach","x":458,"y":1182,"fontSize":20},{"id":"patty_spinach_cheese","label":"Spinach w/ cheese","x":459,"y":1231,"fontSize":20},{"id":"patty_coco_bread","label":"Coco Bread","x":460,"y":1277,"fontSize":20},{"id":"soup_chicken_s","label":"Soup Chicken S","x":946,"y":978,"fontSize":21},{"id":"soup_chicken_l","label":"Soup Chicken L","x":996,"y":978,"fontSize":21},{"id":"soup_beef_s","label":"Soup Beef S","x":946,"y":1015,"fontSize":21},{"id":"soup_beef_l","label":"Soup Beef L","x":996,"y":1015,"fontSize":21},{"id":"soup_red_peas_s","label":"Soup Red Peas S","x":946,"y":1051,"fontSize":21},{"id":"soup_red_peas_l","label":"Soup Red Peas L","x":996,"y":1051,"fontSize":21},{"id":"soup_goat_s","label":"Soup Goat S","x":945,"y":1092,"fontSize":21},{"id":"soup_goat_l","label":"Soup Goat L","x":997,"y":1091,"fontSize":21},{"id":"soup_cowfoot_s","label":"Soup Cowfoot S","x":944,"y":1131,"fontSize":21},{"id":"soup_cowfoot_l","label":"Soup Cowfoot L","x":997,"y":1132,"fontSize":21},{"id":"bev_dg_soda","label":"D & G Soda","x":381,"y":1500,"fontSize":20},{"id":"bev_squeezr","label":"Squeez'r","x":399,"y":1625,"fontSize":20},{"id":"bev_tru_juice","label":"Tru-Juice","x":399,"y":1665,"fontSize":20},{"id":"bev_canned_soda","label":"Canned Soda","x":388,"y":1626,"fontSize":20},{"id":"bev_water","label":"Water","x":389,"y":1669,"fontSize":20},{"id":"lbl_main_s","label":"S","type":"label","x":381,"y":375,"fontSize":16},{"id":"lbl_main_m","label":"M","type":"label","x":444,"y":375,"fontSize":16},{"id":"lbl_main_l","label":"L","type":"label","x":512,"y":375,"fontSize":16},{"id":"lbl_soup_s","label":"S","type":"label","x":946,"y":958,"fontSize":16},{"id":"lbl_soup_l","label":"L","type":"label","x":996,"y":958,"fontSize":16},{"id":"lbl_porridge_s","label":"S","type":"label","x":947,"y":288,"fontSize":16},{"id":"lbl_porridge_l","label":"L","type":"label","x":1006,"y":288,"fontSize":16}]};
+
+    const PRICE_VALUES = {"beef_liver_s":7,"beef_liver_m":12,"beef_liver_l":15,"ackee_saltfish_s":11,"ackee_saltfish_m":15,"ackee_saltfish_l":18,"callaloo_saltfish_s":7,"callaloo_saltfish_m":12,"callaloo_saltfish_l":15,"butterbeans_saltfish_s":7,"butterbeans_saltfish_m":12,"butterbeans_saltfish_l":15,"cookup_saltfish_s":7,"cookup_saltfish_m":12,"cookup_saltfish_l":15,"kidney_s":7,"kidney_m":12,"kidney_l":15,"stew_chicken_s":7,"stew_chicken_m":12,"stew_chicken_l":15,"porridge_oatmeal_s":5,"porridge_oatmeal_l":8,"porridge_peanut_s":5,"porridge_peanut_l":8,"porridge_plantain_s":5,"porridge_plantain_l":8,"porridge_carrot_s":5,"porridge_carrot_l":8,"porridge_cornmeal_s":5,"porridge_cornmeal_l":8,"porridge_hominy_s":5,"porridge_hominy_l":8,"patty_curry_chicken":3.5,"patty_beef_spicy":3.5,"patty_beef_mild":3.5,"patty_beefy_cheese":3.5,"patty_veggie":3.5,"patty_spinach":4.0,"patty_spinach_cheese":4.5,"patty_coco_bread":1.5,"soup_chicken_s":5,"soup_chicken_l":8,"soup_beef_s":5,"soup_beef_l":8,"soup_red_peas_s":5,"soup_red_peas_l":8,"soup_goat_s":5,"soup_goat_l":8,"soup_cowfoot_s":5,"soup_cowfoot_l":8,"bev_dg_soda":3.0,"bev_squeezr":2.5,"bev_tru_juice":2.5,"bev_canned_soda":1.0,"bev_water":1.0};
+
+    const STORAGE_KEY = "mckenzie_overlay_editor_main_v5";
     const CW = 1080, CH = 1780;
- 
+
     const stage        = document.getElementById("stage");
     const overlay      = document.getElementById("overlay");
     const list         = document.getElementById("list");
@@ -195,10 +195,10 @@
     const posYEl       = document.getElementById("posY");
     const fontSizeEl   = document.getElementById("fontSize");
     const saveStatus   = document.getElementById("saveStatus");
- 
+
     function clone(o) { return JSON.parse(JSON.stringify(o)); }
     function setStatus(t) { saveStatus.textContent = t; }
- 
+
     function loadMap() {
       try {
         const raw = localStorage.getItem(STORAGE_KEY);
@@ -207,16 +207,16 @@
         return (!p || !Array.isArray(p.items)) ? clone(DEFAULT_MAP) : p;
       } catch(e) { return clone(DEFAULT_MAP); }
     }
- 
+
     const state = { map: loadMap(), activeId: null, selected: new Set() };
     function getItem(id) { return state.map.items.find(i => i.id === id); }
- 
+
     function formatPrice(v) {
       const n = Number(v);
       if (Number.isNaN(n)) return String(v ?? "");
       return Number.isInteger(n) ? String(n) : n.toFixed(2);
     }
- 
+
     // ── RENDER ────────────────────────────────────────────────────────────────
     function renderStage() {
       overlay.innerHTML = "";
@@ -232,7 +232,7 @@
         el.style.left     = (item.x / CW * 100) + "%";
         el.style.top      = (item.y / CH * 100) + "%";
         el.style.fontSize = (item.fontSize || 16) + "px";
- 
+
         if (item.type === "label") {
           el.textContent        = item.label;
           el.style.color        = "#f5c518";
@@ -242,7 +242,7 @@
           el.style.color = "#111";
           el.style.textDecoration = "";
         }
- 
+
         el.addEventListener("click", e => {
           e.stopPropagation();
           if (e.shiftKey || e.metaKey || e.ctrlKey) {
@@ -260,13 +260,13 @@
       }
       renderList(); renderExport(); syncInputs(); queueSave();
     }
- 
+
     // ── DRAG — snapshot-based delta so positions never drift ──────────────────
     function attachDrag(el, id) {
       let dragging = false;
       let startX, startY, origins = {};
       let justDragged = false;
- 
+
       el.addEventListener("pointerdown", e => {
         e.stopPropagation();
         if (!state.selected.has(id)) {
@@ -285,7 +285,7 @@
         }
         dragging = true;
         el.setPointerCapture(e.pointerId);
- 
+
         // Snapshot start position in canvas coords
         const rect = overlay.getBoundingClientRect();
         startX = ((e.clientX - rect.left) / rect.width)  * CW;
@@ -296,7 +296,7 @@
           if (item) origins[sid] = { x: item.x, y: item.y };
         }
       });
- 
+
       el.addEventListener("pointermove", e => {
         if (!dragging) return;
         const rect = overlay.getBoundingClientRect();
@@ -304,14 +304,14 @@
         const cy = ((e.clientY - rect.top)  / rect.height) * CH;
         const dx = cx - startX;
         const dy = cy - startY;
- 
+
         for (const sid of state.selected) {
           const item = getItem(sid);
           if (!item || !origins[sid]) continue;
           item.x = Math.max(0, Math.min(CW, Math.round(origins[sid].x + dx)));
           item.y = Math.max(0, Math.min(CH, Math.round(origins[sid].y + dy)));
         }
- 
+
         // Lightweight DOM update — no rebuild during drag
         for (const el2 of overlay.querySelectorAll(".overlay-item")) {
           const item = getItem(el2.dataset.id);
@@ -323,13 +323,13 @@
         syncInputs();
         queueSave();
       });
- 
+
       el.addEventListener("pointerup", () => {
         if (dragging) { justDragged = true; dragging = false; renderStage(); }
       });
       el.addEventListener("pointercancel", () => { dragging = false; });
     }
- 
+
     // ── KEYBOARD ──────────────────────────────────────────────────────────────
     document.addEventListener("keydown", e => {
       if (!state.selected.size) return;
@@ -348,7 +348,7 @@
       }
       renderStage(); e.preventDefault();
     });
- 
+
     // ── INPUTS ────────────────────────────────────────────────────────────────
     function syncInputs() {
       const item  = getItem(state.activeId);
@@ -358,7 +358,7 @@
       posYEl.value       = count > 1 ? "" : (item?.y ?? "");
       fontSizeEl.value   = item?.fontSize ?? 16;
     }
- 
+
     posXEl.addEventListener("input", () => {
       const item = getItem(state.activeId); if (!item) return;
       const n = Number(posXEl.value); if (isNaN(n)) return;
@@ -380,7 +380,7 @@
       }
       renderStage();
     });
- 
+
     // ── LIST ──────────────────────────────────────────────────────────────────
     function renderList() {
       list.innerHTML = "";
@@ -405,10 +405,10 @@
         list.appendChild(el);
       }
     }
- 
+
     // ── EXPORT / SAVE ─────────────────────────────────────────────────────────
     function renderExport() { exportBox.value = JSON.stringify(state.map, null, 2); }
- 
+
     let saveTimer = null;
     function queueSave() {
       clearTimeout(saveTimer);
@@ -417,7 +417,7 @@
         setStatus("Autosaved.");
       }, 150);
     }
- 
+
     exportBox.addEventListener("change", () => {
       try {
         const p = JSON.parse(exportBox.value);
@@ -429,7 +429,7 @@
         renderStage(); setStatus("Loaded from JSON box.");
       } catch(e) { setStatus("Invalid JSON."); }
     });
- 
+
     document.getElementById("copyBtn").onclick = async () => {
       renderExport();
       await navigator.clipboard.writeText(exportBox.value);
@@ -452,7 +452,7 @@
       state.selected.add(state.activeId);
       renderStage(); setStatus("Reset to file map.");
     };
- 
+
     // Click empty canvas = deselect
     let justDragged = false;
     overlay.addEventListener("click", () => {
@@ -461,9 +461,9 @@
       state.selected.clear();
       renderStage();
     });
- 
+
     window.addEventListener("resize", renderStage);
- 
+
     setStatus(localStorage.getItem(STORAGE_KEY) ? "Loaded autosaved map." : "Using file map.");
     state.activeId = state.map.items[0]?.id ?? null;
     state.selected.add(state.activeId);
