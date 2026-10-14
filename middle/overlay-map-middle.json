@@ -22,7 +22,7 @@
       "id": "middle_oxtail_roti",
       "label": "Oxtail Roti",
       "x": 500,
-      "y": 326,
+      "y": 331,
       "fontSize": 23
     },
     {
@@ -36,350 +36,350 @@
       "id": "middle_vegetable_roti",
       "label": "Vegetable Roti",
       "x": 500,
-      "y": 425,
+      "y": 422,
       "fontSize": 23
     },
     {
       "id": "middle_roti_skin",
       "label": "Roti Skin",
       "x": 500,
-      "y": 471,
+      "y": 469,
       "fontSize": 23
     },
     {
       "id": "middle_jerk_chicken_mac_s",
       "label": "Jerk Chicken + Mac S",
       "x": 447,
-      "y": 672,
+      "y": 687,
       "fontSize": 23
     },
     {
       "id": "middle_jerk_chicken_mac_m",
       "label": "Jerk Chicken + Mac M",
       "x": 522,
-      "y": 672,
+      "y": 687,
       "fontSize": 23
     },
     {
       "id": "middle_jerk_chicken_mac_l",
       "label": "Jerk Chicken + Mac L",
       "x": 630,
-      "y": 672,
+      "y": 687,
       "fontSize": 23
     },
     {
       "id": "middle_stew_chicken_mac_s",
       "label": "Stew Chicken + Mac S",
       "x": 447,
-      "y": 722,
+      "y": 740,
       "fontSize": 23
     },
     {
       "id": "middle_stew_chicken_mac_m",
       "label": "Stew Chicken + Mac M",
       "x": 522,
-      "y": 721,
+      "y": 740,
       "fontSize": 23
     },
     {
       "id": "middle_stew_chicken_mac_l",
       "label": "Stew Chicken + Mac L",
       "x": 630,
-      "y": 721,
+      "y": 740,
       "fontSize": 23
     },
     {
       "id": "middle_curry_chicken_mac_s",
       "label": "Curry Chicken + Mac S",
       "x": 447,
-      "y": 769,
+      "y": 786,
       "fontSize": 23
     },
     {
       "id": "middle_curry_chicken_mac_m",
       "label": "Curry Chicken + Mac M",
       "x": 522,
-      "y": 769,
+      "y": 786,
       "fontSize": 23
     },
     {
       "id": "middle_curry_chicken_mac_l",
       "label": "Curry Chicken + Mac L",
       "x": 630,
-      "y": 768,
+      "y": 786,
       "fontSize": 23
     },
     {
       "id": "middle_fried_chicken_mac_s",
       "label": "Fried Chicken + Mac S",
       "x": 447,
-      "y": 816,
+      "y": 834,
       "fontSize": 23
     },
     {
       "id": "middle_fried_chicken_mac_m",
       "label": "Fried Chicken + Mac M",
       "x": 522,
-      "y": 816,
+      "y": 834,
       "fontSize": 23
     },
     {
       "id": "middle_fried_chicken_mac_l",
       "label": "Fried Chicken + Mac L",
       "x": 630,
-      "y": 815,
+      "y": 834,
       "fontSize": 23
     },
     {
       "id": "middle_curry_goat_mac_s",
       "label": "Curry Goat + Mac S",
       "x": 447,
-      "y": 866,
+      "y": 883,
       "fontSize": 23
     },
     {
       "id": "middle_curry_goat_mac_m",
       "label": "Curry Goat + Mac M",
       "x": 522,
-      "y": 866,
+      "y": 883,
       "fontSize": 23
     },
     {
       "id": "middle_curry_goat_mac_l",
       "label": "Curry Goat + Mac L",
       "x": 630,
-      "y": 866,
+      "y": 883,
       "fontSize": 23
     },
     {
       "id": "middle_jerk_pork_mac_s",
       "label": "Jerk Pork + Mac S",
       "x": 447,
-      "y": 918,
+      "y": 934,
       "fontSize": 23
     },
     {
       "id": "middle_jerk_pork_mac_m",
       "label": "Jerk Pork + Mac M",
       "x": 522,
-      "y": 918,
+      "y": 934,
       "fontSize": 23
     },
     {
       "id": "middle_jerk_pork_mac_l",
       "label": "Jerk Pork + Mac L",
       "x": 630,
-      "y": 918,
+      "y": 934,
       "fontSize": 23
     },
     {
       "id": "middle_barby_fried_mac_s",
       "label": "Barby-Fried + Mac S",
       "x": 447,
-      "y": 968,
+      "y": 979,
       "fontSize": 23
     },
     {
       "id": "middle_barby_fried_mac_m",
       "label": "Barby-Fried + Mac M",
       "x": 522,
-      "y": 968,
+      "y": 979,
       "fontSize": 23
     },
     {
       "id": "middle_barby_fried_mac_l",
       "label": "Barby-Fried + Mac L",
       "x": 630,
-      "y": 968,
+      "y": 979,
       "fontSize": 23
     },
     {
       "id": "middle_oxtail_mac_s",
       "label": "Oxtail + Mac S",
       "x": 447,
-      "y": 1015,
+      "y": 1025,
       "fontSize": 23
     },
     {
       "id": "middle_oxtail_mac_m",
       "label": "Oxtail + Mac M",
       "x": 522,
-      "y": 1015,
+      "y": 1025,
       "fontSize": 23
     },
     {
       "id": "middle_oxtail_mac_l",
       "label": "Oxtail + Mac L",
       "x": 630,
-      "y": 1015,
+      "y": 1025,
       "fontSize": 23
     },
     {
       "id": "middle_whiting_mac_s",
       "label": "Whiting + Mac S",
       "x": 447,
-      "y": 1064,
+      "y": 1072,
       "fontSize": 23
     },
     {
       "id": "middle_whiting_mac_m",
       "label": "Whiting + Mac M",
       "x": 522,
-      "y": 1064,
+      "y": 1072,
       "fontSize": 23
     },
     {
       "id": "middle_whiting_mac_l",
       "label": "Whiting + Mac L",
       "x": 630,
-      "y": 1064,
+      "y": 1072,
       "fontSize": 23
     },
     {
       "id": "middle_shrimps_mac_s",
       "label": "Shrimps + Mac S",
       "x": 447,
-      "y": 1116,
+      "y": 1120,
       "fontSize": 23
     },
     {
       "id": "middle_shrimps_mac_m",
       "label": "Shrimps + Mac M",
       "x": 522,
-      "y": 1116,
+      "y": 1120,
       "fontSize": 23
     },
     {
       "id": "middle_shrimps_mac_l",
       "label": "Shrimps + Mac L",
       "x": 630,
-      "y": 1116,
+      "y": 1120,
       "fontSize": 23
     },
     {
       "id": "middle_jerk_wings_mac_s",
       "label": "Jerk Wings + Mac S",
       "x": 447,
-      "y": 1162,
+      "y": 1168,
       "fontSize": 23
     },
     {
       "id": "middle_jerk_wings_mac_m",
       "label": "Jerk Wings + Mac M",
       "x": 522,
-      "y": 1162,
+      "y": 1168,
       "fontSize": 23
     },
     {
       "id": "middle_jerk_wings_mac_l",
       "label": "Jerk Wings + Mac L",
       "x": 630,
-      "y": 1162,
+      "y": 1168,
       "fontSize": 23
     },
     {
       "id": "middle_salmon_mac_s",
       "label": "Salmon + Mac S",
       "x": 447,
-      "y": 1211,
+      "y": 1219,
       "fontSize": 23
     },
     {
       "id": "middle_salmon_mac_m",
       "label": "Salmon + Mac M",
       "x": 522,
-      "y": 1211,
+      "y": 1219,
       "fontSize": 23
     },
     {
       "id": "middle_salmon_mac_l",
       "label": "Salmon + Mac L",
       "x": 630,
-      "y": 1211,
+      "y": 1219,
       "fontSize": 23
     },
     {
       "id": "middle_jerk_chicken_pasta",
       "label": "Jerk Chicken + Pasta",
-      "x": 476,
+      "x": 430,
       "y": 1453,
       "fontSize": 23
     },
     {
       "id": "middle_stew_chicken_pasta",
       "label": "Stew Chicken + Pasta",
-      "x": 476,
+      "x": 430,
       "y": 1502,
       "fontSize": 23
     },
     {
       "id": "middle_curry_chicken_pasta",
       "label": "Curry Chicken + Pasta",
-      "x": 476,
-      "y": 1560,
+      "x": 430,
+      "y": 1549,
       "fontSize": 23
     },
     {
       "id": "middle_fried_chicken_pasta",
       "label": "Fried Chicken + Pasta",
-      "x": 476,
-      "y": 1608,
+      "x": 430,
+      "y": 1598,
       "fontSize": 23
     },
     {
       "id": "middle_curry_goat_pasta",
       "label": "Curry Goat + Pasta",
-      "x": 476,
-      "y": 1660,
+      "x": 430,
+      "y": 1645,
       "fontSize": 23
     },
     {
       "id": "middle_shrimp_pasta",
       "label": "Shrimp + Pasta",
-      "x": 476,
-      "y": 1712,
+      "x": 430,
+      "y": 1688,
       "fontSize": 23
     },
     {
       "id": "middle_jerk_pork_pasta",
       "label": "Jerk Pork + Pasta",
-      "x": 995,
-      "y": 1444,
+      "x": 971,
+      "y": 1446,
       "fontSize": 23
     },
     {
       "id": "middle_glazed_salmon_pasta",
       "label": "Glazed Salmon + Pasta",
-      "x": 995,
-      "y": 1500,
+      "x": 971,
+      "y": 1498,
       "fontSize": 23
     },
     {
       "id": "middle_oxtail_pasta",
       "label": "Oxtail + Pasta",
-      "x": 995,
-      "y": 1554,
+      "x": 971,
+      "y": 1550,
       "fontSize": 23
     },
     {
       "id": "middle_jerk_pork_pasta_2",
       "label": "Jerk Pork + Pasta",
-      "x": 995,
-      "y": 1605,
+      "x": 971,
+      "y": 1597,
       "fontSize": 23
     },
     {
       "id": "middle_snapper_pasta",
       "label": "Snapper + Pasta",
-      "x": 995,
-      "y": 1663,
+      "x": 971,
+      "y": 1665,
       "fontSize": 23
     },
     {
       "id": "lbl_middle_meat_s",
       "label": "S",
       "x": 447,
-      "y": 631,
+      "y": 645,
       "fontSize": 20,
       "type": "label"
     },
@@ -387,7 +387,7 @@
       "id": "lbl_middle_meat_m",
       "label": "M",
       "x": 522,
-      "y": 631,
+      "y": 645,
       "fontSize": 20,
       "type": "label"
     },
@@ -395,232 +395,232 @@
       "id": "lbl_middle_meat_l",
       "label": "L",
       "x": 630,
-      "y": 631,
+      "y": 645,
       "fontSize": 20,
       "type": "label"
     },
     {
       "id": "name_middle_01",
       "label": "Curry Chicken Roti",
-      "x": 60,
-      "y": 260,
+      "x": 221,
+      "y": 236,
       "fontSize": 27,
       "type": "name"
     },
     {
       "id": "name_middle_02",
       "label": "Goat Roti",
-      "x": 60,
-      "y": 305,
+      "x": 135,
+      "y": 284,
       "fontSize": 27,
       "type": "name"
     },
     {
       "id": "name_middle_03",
       "label": "Oxtail Roti",
-      "x": 60,
-      "y": 350,
+      "x": 143,
+      "y": 333,
       "fontSize": 27,
       "type": "name"
     },
     {
       "id": "name_middle_04",
       "label": "Jerk Chicken Roti",
-      "x": 60,
-      "y": 395,
+      "x": 206,
+      "y": 375,
       "fontSize": 27,
       "type": "name"
     },
     {
       "id": "name_middle_05",
       "label": "Vegetable Roti",
-      "x": 60,
-      "y": 440,
+      "x": 180,
+      "y": 421,
       "fontSize": 27,
       "type": "name"
     },
     {
       "id": "name_middle_06",
       "label": "Roti Skin",
-      "x": 60,
-      "y": 485,
+      "x": 133,
+      "y": 470,
       "fontSize": 27,
       "type": "name"
     },
     {
       "id": "name_middle_07",
       "label": "Jerk Chicken + Mac",
-      "x": 60,
-      "y": 730,
-      "fontSize": 27,
+      "x": 205,
+      "y": 684,
+      "fontSize": 24,
       "type": "name"
     },
     {
       "id": "name_middle_08",
       "label": "Stew Chicken + Mac",
-      "x": 60,
-      "y": 778,
-      "fontSize": 27,
+      "x": 212,
+      "y": 738,
+      "fontSize": 24,
       "type": "name"
     },
     {
       "id": "name_middle_09",
       "label": "Curry Chicken + Mac",
-      "x": 60,
-      "y": 825,
-      "fontSize": 27,
+      "x": 216,
+      "y": 784,
+      "fontSize": 24,
       "type": "name"
     },
     {
       "id": "name_middle_10",
       "label": "Fried Chicken + Mac",
-      "x": 60,
-      "y": 872,
-      "fontSize": 27,
+      "x": 216,
+      "y": 832,
+      "fontSize": 24,
       "type": "name"
     },
     {
       "id": "name_middle_11",
       "label": "Curry Goat + Mac",
-      "x": 60,
-      "y": 920,
-      "fontSize": 27,
+      "x": 189,
+      "y": 880,
+      "fontSize": 24,
       "type": "name"
     },
     {
       "id": "name_middle_12",
       "label": "Jerk Pork + Mac",
-      "x": 60,
-      "y": 968,
-      "fontSize": 27,
+      "x": 174,
+      "y": 929,
+      "fontSize": 24,
       "type": "name"
     },
     {
       "id": "name_middle_13",
       "label": "Barby-Fried + Mac",
-      "x": 60,
-      "y": 1015,
-      "fontSize": 27,
+      "x": 194,
+      "y": 978,
+      "fontSize": 24,
       "type": "name"
     },
     {
       "id": "name_middle_14",
       "label": "Oxtail + Mac",
-      "x": 60,
-      "y": 1063,
-      "fontSize": 27,
+      "x": 144,
+      "y": 1022,
+      "fontSize": 24,
       "type": "name"
     },
     {
       "id": "name_middle_15",
       "label": "Whiting + Mac",
-      "x": 60,
-      "y": 1110,
-      "fontSize": 27,
+      "x": 163,
+      "y": 1069,
+      "fontSize": 24,
       "type": "name"
     },
     {
       "id": "name_middle_16",
       "label": "Shrimps + Mac",
-      "x": 60,
-      "y": 1157,
-      "fontSize": 27,
+      "x": 166,
+      "y": 1118,
+      "fontSize": 24,
       "type": "name"
     },
     {
       "id": "name_middle_17",
       "label": "Jerk Wings + Mac",
-      "x": 60,
-      "y": 1205,
-      "fontSize": 27,
+      "x": 186,
+      "y": 1166,
+      "fontSize": 24,
       "type": "name"
     },
     {
       "id": "name_middle_18",
       "label": "Salmon + Mac",
-      "x": 60,
-      "y": 1252,
-      "fontSize": 27,
+      "x": 157,
+      "y": 1215,
+      "fontSize": 24,
       "type": "name"
     },
     {
       "id": "name_middle_19",
       "label": "Jerk Chicken + Pasta",
-      "x": 60,
-      "y": 1432,
-      "fontSize": 27,
+      "x": 215,
+      "y": 1452,
+      "fontSize": 23,
       "type": "name"
     },
     {
       "id": "name_middle_20",
       "label": "Stew Chicken + Pasta",
-      "x": 60,
-      "y": 1478,
-      "fontSize": 27,
+      "x": 217,
+      "y": 1499,
+      "fontSize": 23,
       "type": "name"
     },
     {
       "id": "name_middle_21",
       "label": "Curry Chicken + Pasta",
-      "x": 60,
-      "y": 1524,
-      "fontSize": 27,
+      "x": 219,
+      "y": 1546,
+      "fontSize": 23,
       "type": "name"
     },
     {
       "id": "name_middle_22",
       "label": "Fried Chicken + Pasta",
-      "x": 60,
-      "y": 1570,
-      "fontSize": 27,
+      "x": 217,
+      "y": 1595,
+      "fontSize": 23,
       "type": "name"
     },
     {
       "id": "name_middle_23",
       "label": "Curry Goat + Pasta",
-      "x": 60,
-      "y": 1616,
-      "fontSize": 27,
+      "x": 192,
+      "y": 1642,
+      "fontSize": 23,
       "type": "name"
     },
     {
       "id": "name_middle_24",
       "label": "Shrimp + Pasta",
-      "x": 60,
-      "y": 1662,
-      "fontSize": 27,
+      "x": 164,
+      "y": 1687,
+      "fontSize": 23,
       "type": "name"
     },
     {
       "id": "name_middle_25",
       "label": "Jerk Pork + Pasta",
-      "x": 570,
-      "y": 1432,
-      "fontSize": 27,
+      "x": 673,
+      "y": 1444,
+      "fontSize": 23,
       "type": "name"
     },
     {
       "id": "name_middle_26",
       "label": "Glazed Salmon + Pasta",
-      "x": 570,
-      "y": 1478,
-      "fontSize": 27,
+      "x": 715,
+      "y": 1595,
+      "fontSize": 23,
       "type": "name"
     },
     {
       "id": "name_middle_27",
       "label": "Oxtail + Pasta",
-      "x": 570,
-      "y": 1524,
-      "fontSize": 27,
+      "x": 645,
+      "y": 1498,
+      "fontSize": 23,
       "type": "name"
     },
     {
       "id": "name_middle_28",
       "label": "Snapper + Pasta",
-      "x": 570,
-      "y": 1570,
-      "fontSize": 27,
+      "x": 667,
+      "y": 1547,
+      "fontSize": 23,
       "type": "name"
     }
   ]
