@@ -231,7 +231,7 @@
       const prices = await loadPrices();
       const overlay = document.getElementById("overlay");
       for (const el of overlay.querySelectorAll(".price-tag")) {
-        if (el.dataset.type === "label") continue; // labels are static
+        if (el.dataset.type === "label" || el.dataset.type === "name") continue; // labels and food names are static overlays
         el.textContent = formatPrice(prices[el.dataset.id] ?? "");
       }
     }
