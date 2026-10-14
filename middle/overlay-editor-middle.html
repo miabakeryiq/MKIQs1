@@ -159,6 +159,11 @@
       <input id="selectedId" readonly />
     </div>
     <div class="field">
+      <label>Food item name / S-M-L label</label>
+      <input id="itemLabel" type="text" maxlength="100" placeholder="Select an item to edit its name" />
+      <div class="micro">Edits the selected item's name in the editor list and exported overlay map.</div>
+    </div>
+    <div class="field">
       <label>X</label>
       <input id="posX" type="number" step="1" />
     </div>
@@ -198,6 +203,7 @@
     const posXEl   = document.getElementById("posX");
     const posYEl   = document.getElementById("posY");
     const fontSizeEl = document.getElementById("fontSize");
+    const itemLabelEl = document.getElementById("itemLabel");
     const saveStatus = document.getElementById("saveStatus");
  
     function clone(o) { return JSON.parse(JSON.stringify(o)); }
@@ -372,7 +378,20 @@
       posXEl.value       = count > 1 ? "" : (item?.x ?? "");
       posYEl.value       = count > 1 ? "" : (item?.y ?? "");
       fontSizeEl.value   = item?.fontSize ?? 16;
+      itemLabelEl.value  = item?.label ?? "";
+      itemLabelEl.disabled = !item || count > 1;
+      itemLabelEl.placeholder = count > 1 ? "Select one item to rename it" : "Select an item to edit its name";
     }
+
+    itemLabelEl.addEventListener("input", () => {
+      const item = getItem(state.activeId);
+      if (!item || state.selected.size > 1) return;
+      item.label = itemLabelEl.value;
+      renderList();
+      renderExport();
+      queueSave();
+      setStatus("Name changed — autosaving.");
+    });
  
     posXEl.addEventListener("input", () => {
       const item = getItem(state.activeId); if (!item) return;
