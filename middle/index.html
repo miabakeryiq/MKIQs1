@@ -210,7 +210,14 @@
         el.style.top = `${(item.y / map.canvas.height) * 100}%`;
         el.style.fontSize = `${item.fontSize || 16}px`;
         // Label items render immediately, price items wait for API
-        el.textContent = item.type === "label" ? item.label : "";
+        el.textContent = (item.type === "label" || item.type === "name") ? item.label : "";
+        if (item.type === "name") {
+          el.style.color = "#111";
+          el.style.background = "rgba(255,255,255,.96)";
+          el.style.padding = "2px 4px";
+          el.style.borderRadius = "2px";
+          el.style.fontWeight = "800";
+        }
         if (item.type === "label") {
           el.style.color = "#f5c518";
           el.style.textDecoration = "underline";
